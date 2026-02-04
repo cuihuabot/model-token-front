@@ -11,6 +11,22 @@ title: 模型接口管理平台
 
 <div class="model-responses-grid">
 <div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-claude-sonnet-api-test-config.html">claude-sonnet - api-test-config - 2026-02-04_20-30-23-281Z</a></h3>
+  <p><strong>模型:</strong> claude-sonnet</p>
+  <p><strong>配置:</strong> api-test-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-30-23-281Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-claude-sonnet-api-test-config.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config.html">Gemini Pro Response - Default Config - 2026-02-05_04-01-22</a></h3>
+  <p><strong>模型:</strong> gemini-pro</p>
+  <p><strong>配置:</strong> default-config</p>
+  <p><strong>时间:</strong> 2026-02-05_04-01-22</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
   <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro_default-config_2026-02-04_20-04-58-863Z.html">gemini-pro - default-config - 2026-02-04_20-04-58-863Z</a></h3>
   <p><strong>模型:</strong> gemini-pro</p>
   <p><strong>配置:</strong> default-config</p>
@@ -27,11 +43,27 @@ title: 模型接口管理平台
 </div>
 
 <div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-gpt-4-default-config.html">gpt-4 - default-config - 2026-02-04_20-26-04-903Z</a></h3>
+  <p><strong>模型:</strong> gpt-4</p>
+  <p><strong>配置:</strong> default-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-26-04-903Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-gpt-4-default-config.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
   <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-gpt-4_default-config_2026-02-04_20-26-04-903Z.html">gpt-4 - default-config - 2026-02-04_20-26-04-903Z</a></h3>
   <p><strong>模型:</strong> gpt-4</p>
   <p><strong>配置:</strong> default-config</p>
   <p><strong>时间:</strong> 2026-02-04_20-26-04-903Z</p>
   <p><a href="{{ site.baseurl }}/_posts/2026-02-04-gpt-4_default-config_2026-02-04_20-26-04-903Z.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-test-model-test-config.html">test-model - test-config - 2026-02-04_20-08-14-412Z</a></h3>
+  <p><strong>模型:</strong> test-model</p>
+  <p><strong>配置:</strong> test-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-08-14-412Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-test-model-test-config.html">查看详情</a></p>
 </div>
 
 <div class="model-response-card">

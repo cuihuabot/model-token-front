@@ -27,6 +27,14 @@ title: 模型接口管理平台
 </div>
 
 <div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-final-test-final-run-config.html">final-test - final-run-config - 2026-02-04_20-40-15-357Z</a></h3>
+  <p><strong>模型:</strong> final-test</p>
+  <p><strong>配置:</strong> final-run-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-40-15-357Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-final-test-final-run-config.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
   <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config-1.html">gemini-pro - default-config - 2026-02-04_20-34-58-384Z</a></h3>
   <p><strong>模型:</strong> gemini-pro</p>
   <p><strong>配置:</strong> default-config</p>
@@ -80,14 +88,6 @@ title: 模型接口管理平台
   <p><strong>配置:</strong> prod-config</p>
   <p><strong>时间:</strong> 2026-02-04_20-35-29-638Z</p>
   <p><a href="{{ site.baseurl }}/_posts/2026-02-04-qwen-max-prod-config.html">查看详情</a></p>
-</div>
-
-<div class="model-response-card">
-  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-test-fix-final-config.html">test-fix - final-config - 2026-02-04_20-39-04-807Z</a></h3>
-  <p><strong>模型:</strong> test-fix</p>
-  <p><strong>配置:</strong> final-config</p>
-  <p><strong>时间:</strong> 2026-02-04_20-39-04-807Z</p>
-  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-test-fix-final-config.html">查看详情</a></p>
 </div>
 
 </div>

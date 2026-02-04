@@ -19,6 +19,14 @@ title: 模型接口管理平台
 </div>
 
 <div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-command-r-plus-config.html">command-r - plus-config - 2026-02-04_20-34-41-517Z</a></h3>
+  <p><strong>模型:</strong> command-r</p>
+  <p><strong>配置:</strong> plus-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-34-41-517Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-command-r-plus-config.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
   <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config.html">Gemini Pro Response - Default Config - 2026-02-05_04-01-22</a></h3>
   <p><strong>模型:</strong> gemini-pro</p>
   <p><strong>配置:</strong> default-config</p>

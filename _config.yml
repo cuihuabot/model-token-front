@@ -1,15 +1,12 @@
-title: Model Token Frontend
-email: 100195992@qq.com
-description: 前端展示各种大模型API接口的状态和性能
-baseurl: "/model-token-front"
-url: "https://cuihuabot.github.io"
-
-show_excerpts: true
+title: Model Response Frontend
+email: your-email@example.com
+description: Generated frontend for model responses
+baseurl: ""
+url: ""
 
 theme: minima
 plugins:
   - jekyll-feed
-  - jekyll-sitemap
 
 exclude:
   - Gemfile
@@ -19,3 +16,8 @@ exclude:
   - vendor/cache/
   - vendor/gems/
   - vendor/ruby/
+
+collections:
+  pages:
+    output: true
+    permalink: /:collection/:name:output_ext

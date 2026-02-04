@@ -67,10 +67,10 @@ title: 模型接口管理平台
 </div>
 
 <div class="model-response-card">
-  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config.html">gemini-pro - default-config - 2026-02-04_20-04-58-863Z</a></h3>
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config.html">gemini-pro - default-config - 2026-02-04_20-51-36-544Z</a></h3>
   <p><strong>模型:</strong> gemini-pro</p>
   <p><strong>配置:</strong> default-config</p>
-  <p><strong>时间:</strong> 2026-02-04_20-04-58-863Z</p>
+  <p><strong>时间:</strong> 2026-02-04_20-51-36-544Z</p>
   <p><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config.html">查看详情</a></p>
 </div>
 

@@ -35,6 +35,14 @@ title: 模型接口管理平台
 </div>
 
 <div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-final-check-final-config.html">final-check - final-config - 2026-02-04_20-47-19-418Z</a></h3>
+  <p><strong>模型:</strong> final-check</p>
+  <p><strong>配置:</strong> final-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-47-19-418Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-final-check-final-config.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
   <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-final-test-final-run-config.html">final-test - final-run-config - 2026-02-04_20-40-15-357Z</a></h3>
   <p><strong>模型:</strong> final-test</p>
   <p><strong>配置:</strong> final-run-config</p>
@@ -80,14 +88,6 @@ title: 模型接口管理平台
   <p><strong>配置:</strong> api-prod-config</p>
   <p><strong>时间:</strong> 2026-02-04_20-31-06-250Z</p>
   <p><a href="{{ site.baseurl }}/_posts/2026-02-04-llama-3-api-prod-config.html">查看详情</a></p>
-</div>
-
-<div class="model-response-card">
-  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-mistral-large-v1-config.html">mistral-large - v1-config - 2026-02-04_20-31-49-395Z</a></h3>
-  <p><strong>模型:</strong> mistral-large</p>
-  <p><strong>配置:</strong> v1-config</p>
-  <p><strong>时间:</strong> 2026-02-04_20-31-49-395Z</p>
-  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-mistral-large-v1-config.html">查看详情</a></p>
 </div>
 
 </div>

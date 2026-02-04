@@ -83,11 +83,11 @@ title: 模型接口管理平台
 </div>
 
 <div class="model-response-card">
-  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-test-model-test-config.html">test-model - test-config - 2026-02-04_20-08-14-412Z</a></h3>
-  <p><strong>模型:</strong> test-model</p>
-  <p><strong>配置:</strong> test-config</p>
-  <p><strong>时间:</strong> 2026-02-04_20-08-14-412Z</p>
-  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-test-model-test-config.html">查看详情</a></p>
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-test-fix-final-config.html">test-fix - final-config - 2026-02-04_20-39-04-807Z</a></h3>
+  <p><strong>模型:</strong> test-fix</p>
+  <p><strong>配置:</strong> final-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-39-04-807Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-test-fix-final-config.html">查看详情</a></p>
 </div>
 
 </div>

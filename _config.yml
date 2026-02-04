@@ -1,0 +1,23 @@
+title: Model Response Frontend
+email: your-email@example.com
+description: Generated frontend for model responses
+baseurl: ""
+url: ""
+
+theme: minima
+plugins:
+  - jekyll-feed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+collections:
+  pages:
+    output: true
+    permalink: /:collection/:name:output_ext

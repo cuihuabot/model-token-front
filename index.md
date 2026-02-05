@@ -12,11 +12,11 @@ title: 模型接口管理平台
 <div class="model-responses-grid">
 {% for post in site.posts limit: 10 %}
 <div class="model-response-card">
-  <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+  <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
   <p><strong>模型:</strong> {{ post.model }}</p>
   <p><strong>配置:</strong> {{ post.config }}</p>
   <p><strong>时间:</strong> {{ post.timestamp }}</p>
-  <p><a href="{{ post.url }}">查看详情</a></p>
+  <p><a href="{{ post.url | relative_url }}">查看详情</a></p>
 </div>
 {% endfor %}
 </div>

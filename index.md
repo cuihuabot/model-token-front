@@ -10,15 +10,86 @@ title: 模型接口管理平台
 ## 最新模型响应
 
 <div class="model-responses-grid">
-{% for post in site.posts limit: 10 %}
 <div class="model-response-card">
-  <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-  <p><strong>模型:</strong> {{ post.model }}</p>
-  <p><strong>配置:</strong> {{ post.config }}</p>
-  <p><strong>时间:</strong> {{ post.timestamp }}</p>
-  <p><a href="{{ post.url | relative_url }}">查看详情</a></p>
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-claude-sonnet-api-test-config.html">claude-sonnet - api-test-config - 2026-02-04_20-30-23-281Z</a></h3>
+  <p><strong>模型:</strong> claude-sonnet</p>
+  <p><strong>配置:</strong> api-test-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-30-23-281Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-claude-sonnet-api-test-config.html">查看详情</a></p>
 </div>
-{% endfor %}
+
+<div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-command-r-plus-config.html">command-r - plus-config - 2026-02-04_20-34-41-517Z</a></h3>
+  <p><strong>模型:</strong> command-r</p>
+  <p><strong>配置:</strong> plus-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-34-41-517Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-command-r-plus-config.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-debug-test-debug-config.html">debug-test - debug-config - 2026-02-04_20-43-43-159Z</a></h3>
+  <p><strong>模型:</strong> debug-test</p>
+  <p><strong>配置:</strong> debug-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-43-43-159Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-debug-test-debug-config.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-final-check-final-config.html">final-check - final-config - 2026-02-04_20-47-19-418Z</a></h3>
+  <p><strong>模型:</strong> final-check</p>
+  <p><strong>配置:</strong> final-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-47-19-418Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-final-check-final-config.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-final-test-final-run-config.html">final-test - final-run-config - 2026-02-04_20-40-15-357Z</a></h3>
+  <p><strong>模型:</strong> final-test</p>
+  <p><strong>配置:</strong> final-run-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-40-15-357Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-final-test-final-run-config.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config-1.html">gemini-pro - default-config - 2026-02-04_20-34-58-384Z</a></h3>
+  <p><strong>模型:</strong> gemini-pro</p>
+  <p><strong>配置:</strong> default-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-34-58-384Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config-1.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config-2.html">Gemini Pro Response - Default Config - 2026-02-05_04-01-22</a></h3>
+  <p><strong>模型:</strong> gemini-pro</p>
+  <p><strong>配置:</strong> default-config</p>
+  <p><strong>时间:</strong> 2026-02-05_04-01-22</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config-2.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config.html">gemini-pro - default-config - 2026-02-04_20-51-36-544Z</a></h3>
+  <p><strong>模型:</strong> gemini-pro</p>
+  <p><strong>配置:</strong> default-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-51-36-544Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-gemini-pro-default-config.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-gpt-4-default-config.html">gpt-4 - default-config - 2026-02-04_20-26-04-903Z</a></h3>
+  <p><strong>模型:</strong> gpt-4</p>
+  <p><strong>配置:</strong> default-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-26-04-903Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-gpt-4-default-config.html">查看详情</a></p>
+</div>
+
+<div class="model-response-card">
+  <h3><a href="{{ site.baseurl }}/_posts/2026-02-04-llama-3-api-prod-config.html">llama-3 - api-prod-config - 2026-02-04_20-31-06-250Z</a></h3>
+  <p><strong>模型:</strong> llama-3</p>
+  <p><strong>配置:</strong> api-prod-config</p>
+  <p><strong>时间:</strong> 2026-02-04_20-31-06-250Z</p>
+  <p><a href="{{ site.baseurl }}/_posts/2026-02-04-llama-3-api-prod-config.html">查看详情</a></p>
+</div>
+
 </div>
 
 ## 支持的模型

@@ -111,50 +111,34 @@
   <script>
     // Fetch and display the list of generated pages
     document.addEventListener('DOMContentLoaded', function() {
-      // In a real scenario, we'd fetch from a JSON file or API
-      // For now, we'll list the files from the _posts directory
-      // This would normally be handled by Jekyll, but since we're using .nojekyll,
-      // we'll need to use JavaScript to list the files
-      
-      // For demonstration purposes, we'll create a simple static list
-      // In a real implementation, you'd fetch this dynamically
       const postsContainer = document.getElementById('responses-container');
       
-      // We'll add links to all HTML files in _posts directory
-      // This would typically be done by building a manifest file during generation
       fetch('_posts/posts-manifest.json')
         .then(response => {
           if (response.ok) {
             return response.json();
           } else {
-            // If manifest doesn't exist, show a message
-            postsContainer.innerHTML = '<p>正在加载模型响应...</p>';
-            
-            // For demo purposes, we'll create some example links
-            // In a real scenario, this would come from the actual generated files
-            setTimeout(() => {
-              postsContainer.innerHTML = `
-                <div class="model-response-card">
-                  <h3><a href="_posts/2026-02-05-gemini-pro-default-config.html">gemini-pro - default-config - 2026-02-05</a></h3>
-                  <p><strong>模型:</strong> gemini-pro</p>
-                  <p><strong>配置:</strong> default-config</p>
-                  <p><strong>时间:</strong> 2026-02-05</p>
-                  <p><a href="_posts/2026-02-05-gemini-pro-default-config.html">查看详情</a></p>
-                </div>
-                <div class="model-response-card">
-                  <h3><a href="_posts/2026-02-04-gemini-pro-default-config.html">gemini-pro - default-config - 2026-02-04</a></h3>
-                  <p><strong>模型:</strong> gemini-pro</p>
-                  <p><strong>配置:</strong> default-config</p>
-                  <p><strong>时间:</strong> 2026-02-04</p>
-                  <p><a href="_posts/2026-02-04-gemini-pro-default-config.html">查看详情</a></p>
-                </div>
-              `;
-            }, 1000);
+            throw new Error('Manifest file not found');
           }
         })
-        .catch(() => {
-          // On error, show placeholder content
-          postsContainer.innerHTML = '<p>正在加载模型响应...</p>';
+        .then(posts => {
+          if (posts && posts.length > 0) {
+            postsContainer.innerHTML = posts.map(post => `
+              <div class="model-response-card">
+                <h3><a href="_posts/${post.filename}">${post.title}</a></h3>
+                <p><strong>模型:</strong> ${post.model}</p>
+                <p><strong>配置:</strong> ${post.config}</p>
+                <p><strong>时间:</strong> ${post.date}</p>
+                <p><a href="_posts/${post.filename}">查看详情</a></p>
+              </div>
+            `).join('');
+          } else {
+            postsContainer.innerHTML = '<p>暂无模型响应数据</p>';
+          }
+        })
+        .catch(error => {
+          console.error('Error loading posts:', error);
+          postsContainer.innerHTML = '<p>加载模型响应时出错</p>';
         });
     });
   </script>

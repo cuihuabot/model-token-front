@@ -8,6 +8,9 @@ theme: minima
 plugins:
   - jekyll-feed
 
+# Encoding settings to prevent force_encoding errors
+encoding: utf-8
+
 exclude:
   - Gemfile
   - Gemfile.lock

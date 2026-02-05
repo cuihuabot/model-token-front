@@ -1,5 +1,12 @@
 [
   {
+    "filename": "2026-02-05-google-gemini-pro-default-config.html",
+    "title": "google-gemini-pro - default-config - 2026-02-05",
+    "model": "google-gemini-pro",
+    "config": "default-config",
+    "date": "2026-02-05"
+  },
+  {
     "filename": "2026-02-05-updated-qwen-model-default-config.html",
     "title": "updated-qwen-model - default-config - 2026-02-05",
     "model": "updated-qwen-model",
@@ -51,6 +58,20 @@
   {
     "filename": "2026-02-05-updated-qwen-model-default-config-7.html",
     "title": "updated-qwen-model - default-config - 2026-02-05-7",
+    "model": "updated-qwen-model",
+    "config": "default-config",
+    "date": "2026-02-05"
+  },
+  {
+    "filename": "2026-02-05-updated-qwen-model-default-config-8.html",
+    "title": "updated-qwen-model - default-config - 2026-02-05-8",
+    "model": "updated-qwen-model",
+    "config": "default-config",
+    "date": "2026-02-05"
+  },
+  {
+    "filename": "2026-02-05-updated-qwen-model-default-config-9.html",
+    "title": "updated-qwen-model - default-config - 2026-02-05-9",
     "model": "updated-qwen-model",
     "config": "default-config",
     "date": "2026-02-05"

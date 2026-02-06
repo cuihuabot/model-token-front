@@ -123,7 +123,7 @@
     }
     
     .dashboard-title::before {
-      content: "🌍";
+      content: "🚨";
       margin-right: 0.5rem;
       font-size: 1.2rem;
     }
@@ -133,6 +133,47 @@
       color: #666;
       margin-bottom: 1.2rem;
       line-height: 1.5;
+    }
+    
+    /* Alert section for important events */
+    .alert-section {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: white;
+      border-radius: 8px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(238, 90, 36, 0.2);
+      border-left: 5px solid #ffffff;
+    }
+    
+    .alert-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+    
+    .alert-icon {
+      font-size: 1.5rem;
+      margin-right: 0.8rem;
+    }
+    
+    .alert-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .alert-content {
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    .alert-highlight {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin: 0.5rem 0;
+      font-weight: 500;
     }
     
     /* Analysis sections */
@@ -193,7 +234,7 @@
     }
     
     .event-time {
-      min-width: 80px;
+      min-width: 100px;
       font-weight: 600;
       color: #2c3e50;
       font-size: 0.9rem;
@@ -242,6 +283,20 @@
     .low-impact {
       background: #e8f5e9;
       color: #27ae60;
+    }
+    
+    .postponed-event {
+      background-color: #fff3cd !important;
+      border-left: 4px solid #ffc107;
+    }
+    
+    .postponed-event .event-title {
+      color: #856404;
+    }
+    
+    .postponed-event .event-desc {
+      color: #856404;
+      font-style: italic;
     }
     
     .opportunity-symbol {
@@ -380,6 +435,18 @@
         padding-bottom: 0.4rem;
       }
       
+      .alert-section {
+        padding: 1rem;
+      }
+      
+      .alert-title {
+        font-size: 1.1rem;
+      }
+      
+      .alert-content {
+        font-size: 0.9rem;
+      }
+      
       .dashboard-description {
         font-size: 0.8rem;
       }
@@ -467,36 +534,61 @@
 
   <div class="container">
     <div class="dashboard">
-      <h1 class="dashboard-title">全球市场分析系统</h1>
+      <h1 class="dashboard-title">重要财经事件提醒</h1>
       <p class="dashboard-description">基于实时数据的全球金融市场分析、套利机会检测和社交媒体情绪监控。整合多源数据，提供全方位的市场洞察。</p>
+      
+      <!-- Alert section for important government shutdown event -->
+      <div class="alert-section">
+        <div class="alert-header">
+          <div class="alert-icon">🚨</div>
+          <h3 class="alert-title">紧急提醒：美国政府临时停摆</h3>
+        </div>
+        <div class="alert-content">
+          <p>因美国政府临时停摆，原定于2026年2月6日公布的1月非农就业报告推迟至<strong>2月11日（下周三）</strong>公布。</p>
+          <div class="alert-highlight">
+            💡 影响分析：政府停摆导致经济数据发布时间调整，可能对市场预期和波动性产生影响。
+          </div>
+          <p>发布时间预计为美东时间2月11日晚20:30（北京时间2月12日上午9:30）。</p>
+        </div>
+      </div>
       
       <div class="analysis-section economic-events">
         <div class="section-header">
           <h2 class="section-title">财经日历</h2>
         </div>
         <ul class="data-list">
-          <li class="data-item">
-            <div class="event-time">2026-02-06<br>08:30</div>
+          <li class="data-item postponed-event">
+            <div class="event-time">2026-02-11<br>20:30</div>
             <div class="event-details">
               <div class="event-title">
                 <span class="event-currency">USD</span>非农就业人数
               </div>
-              <div class="event-desc">美国劳工部发布的月度就业报告</div>
+              <div class="event-desc">美国劳工部发布的月度就业报告（原定2月6日因政府停摆推迟）</div>
             </div>
             <div class="event-impact high-impact">高影响</div>
           </li>
-          <li class="data-item">
-            <div class="event-time">2026-02-06<br>10:00</div>
+          <li class="data-item postponed-event">
+            <div class="event-time">2026-02-11<br>20:30</div>
             <div class="event-details">
               <div class="event-title">
                 <span class="event-currency">USD</span>失业率
               </div>
-              <div class="event-desc">反映美国劳动力市场状况</div>
+              <div class="event-desc">反映美国劳动力市场状况（原定2月6日因政府停摆推迟）</div>
             </div>
             <div class="event-impact high-impact">高影响</div>
           </li>
           <li class="data-item">
-            <div class="event-time">2026-02-06<br>16:00</div>
+            <div class="event-time">2026-02-06<br>21:30</div>
+            <div class="event-details">
+              <div class="event-title">
+                <span class="event-currency">USD</span>政府停摆相关消息
+              </div>
+              <div class="event-desc">美国政府临时停摆，导致经济数据发布时间调整</div>
+            </div>
+            <div class="event-impact high-impact">高影响</div>
+          </li>
+          <li class="data-item">
+            <div class="event-time">2026-02-07<br>16:00</div>
             <div class="event-details">
               <div class="event-title">
                 <span class="event-currency">EUR</span>ECB利率决议
@@ -504,16 +596,6 @@
               <div class="event-desc">欧洲央行货币政策决定</div>
             </div>
             <div class="event-impact high-impact">高影响</div>
-          </li>
-          <li class="data-item">
-            <div class="event-time">2026-02-07<br>08:00</div>
-            <div class="event-details">
-              <div class="event-title">
-                <span class="event-currency">JPY</span>央行货币政策纪要
-              </div>
-              <div class="event-desc">日本央行政策制定会议记录</div>
-            </div>
-            <div class="event-impact medium-impact">中影响</div>
           </li>
         </ul>
       </div>
@@ -609,7 +691,7 @@
       </div>
       
       <div class="last-updated">
-        最后更新: 2026年2月6日 16:15:30
+        最后更新: <span id="current-date-time">2026年2月6日 16:45:30</span>
       </div>
     </div>
   </div>
@@ -620,5 +702,34 @@
       <p>基于先进人工智能技术和多源数据融合，为全球投资者提供及时、准确的市场洞察与投资决策支持。</p>
     </div>
   </footer>
+
+  <script>
+    // 动态更新页面上的日期时间
+    function updateDateTime() {
+      const now = new Date();
+      // 计算北京时间 (UTC+8)
+      const beijingTime = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (8 * 3600000));
+      
+      const year = beijingTime.getFullYear();
+      const month = String(beijingTime.getMonth() + 1).padStart(2, '0');
+      const day = String(beijingTime.getDate()).padStart(2, '0');
+      const hours = String(beijingTime.getHours()).padStart(2, '0');
+      const minutes = String(beijingTime.getMinutes()).padStart(2, '0');
+      const seconds = String(beijingTime.getSeconds()).padStart(2, '0');
+      
+      const formattedDateTime = \`\${year}年\${month}月\${day}日 \${hours}:\${minutes}:\${seconds}\`;
+      
+      const dateTimeElement = document.getElementById('current-date-time');
+      if(dateTimeElement) {
+        dateTimeElement.textContent = formattedDateTime;
+      }
+    }
+    
+    // 页面加载时立即更新一次
+    updateDateTime();
+    
+    // 每秒更新一次时间
+    setInterval(updateDateTime, 1000);
+  </script>
 </body>
 </html>

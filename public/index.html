@@ -135,6 +135,47 @@
       line-height: 1.5;
     }
     
+    /* Alert section for important events */
+    .alert-section {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: white;
+      border-radius: 8px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(238, 90, 36, 0.2);
+      border-left: 5px solid #ffffff;
+    }
+    
+    .alert-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+    
+    .alert-icon {
+      font-size: 1.5rem;
+      margin-right: 0.8rem;
+    }
+    
+    .alert-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .alert-content {
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    .alert-highlight {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin: 0.5rem 0;
+      font-weight: 500;
+    }
+    
     /* Analysis sections */
     .analysis-section {
       margin-bottom: 1.5rem;
@@ -301,6 +342,18 @@
         padding-bottom: 0.4rem;
       }
       
+      .alert-section {
+        padding: 1rem;
+      }
+      
+      .alert-title {
+        font-size: 1.1rem;
+      }
+      
+      .alert-content {
+        font-size: 0.9rem;
+      }
+      
       .dashboard-description {
         font-size: 0.8rem;
       }
@@ -391,6 +444,21 @@
       <h1 class="dashboard-title">最新市场分析报告</h1>
       <p class="dashboard-description">基于AI模型分析的实时市场动态、热点追踪和投资建议。每日报告为您提供专业的市场洞察和投资策略。</p>
       
+      <!-- Alert section for important government shutdown event -->
+      <div class="alert-section">
+        <div class="alert-header">
+          <div class="alert-icon">🚨</div>
+          <h3 class="alert-title">紧急提醒：美国政府临时停摆</h3>
+        </div>
+        <div class="alert-content">
+          <p>因美国政府临时停摆，原定于2026年2月6日公布的1月非农就业报告推迟至<strong>2月11日（下周三）</strong>公布。</p>
+          <div class="alert-highlight">
+            💡 影响分析：政府停摆导致经济数据发布时间调整，可能对市场预期和波动性产生影响。
+          </div>
+          <p>发布时间预计为美东时间2月11日晚20:30（北京时间2月12日上午9:30）。</p>
+        </div>
+      </div>
+      
       <div class="analysis-section market-reports">
         <div class="section-header">
           <h2 class="section-title">市场分析报告</h2>
@@ -399,9 +467,9 @@
           <li class="data-item">
             <div class="report-model">🤖 Qwen Max</div>
             <div class="report-details">
-              <div class="report-title">全球市场趋势分析</div>
-              <div class="report-date">📅 2026-02-06 16:38:00</div>
-              <div class="report-summary">基于最新数据的全球市场趋势分析，识别主要投资机会和风险因素...</div>
+              <div class="report-title">美国政府停摆影响分析</div>
+              <div class="report-date">📅 2026-02-06 16:45:00</div>
+              <div class="report-summary">分析美国政府临时停摆对经济数据发布时间的影响，以及对市场的潜在冲击</div>
               <a href="#" class="report-link">阅读全文</a>
             </div>
           </li>
@@ -409,9 +477,9 @@
           <li class="data-item">
             <div class="report-model">🤖 Google Gemini Pro</div>
             <div class="report-details">
-              <div class="report-title">加密货币套利机会</div>
-              <div class="report-date">📅 2026-02-06 16:38:00</div>
-              <div class="report-summary">检测到BTC在Binance和Coinbase之间存在2.3%的套利空间，可持续约30分钟...</div>
+              <div class="report-title">非农报告推迟市场反应</div>
+              <div class="report-date">📅 2026-02-06 16:45:00</div>
+              <div class="report-summary">1月非农报告推迟至2月11日公布，市场预期与影响分析</div>
               <a href="#" class="report-link">阅读全文</a>
             </div>
           </li>
@@ -419,9 +487,9 @@
           <li class="data-item">
             <div class="report-model">🤖 OpenAI GPT-4</div>
             <div class="report-details">
-              <div class="report-title">社交媒体情绪分析</div>
-              <div class="report-date">📅 2026-02-06 16:38:00</div>
-              <div class="report-summary">对主要加密货币KOL的推文进行情感分析，发现对ETH未来走势呈积极态度...</div>
+              <div class="report-title">全球经济事件展望</div>
+              <div class="report-date">📅 2026-02-06 16:45:00</div>
+              <div class="report-summary">近期重要经济事件及政策变化对全球市场的影响评估</div>
               <a href="#" class="report-link">阅读全文</a>
             </div>
           </li>
@@ -429,7 +497,7 @@
       </div>
       
       <div class="last-updated">
-        最后更新: 2026年2月6日 16:15:00
+        最后更新: <span id="current-date-time">2026年2月6日 16:45:00</span>
       </div>
     </div>
   </div>
@@ -440,5 +508,34 @@
       <p>基于先进人工智能技术，为投资者提供及时、准确的市场分析与投资建议。</p>
     </div>
   </footer>
+
+  <script>
+    // 动态更新页面上的日期时间
+    function updateDateTime() {
+      const now = new Date();
+      // 计算北京时间 (UTC+8)
+      const beijingTime = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (8 * 3600000));
+      
+      const year = beijingTime.getFullYear();
+      const month = String(beijingTime.getMonth() + 1).padStart(2, '0');
+      const day = String(beijingTime.getDate()).padStart(2, '0');
+      const hours = String(beijingTime.getHours()).padStart(2, '0');
+      const minutes = String(beijingTime.getMinutes()).padStart(2, '0');
+      const seconds = String(beijingTime.getSeconds()).padStart(2, '0');
+      
+      const formattedDateTime = \`\${year}年\${month}月\${day}日 \${hours}:\${minutes}:\${seconds}\`;
+      
+      const dateTimeElement = document.getElementById('current-date-time');
+      if(dateTimeElement) {
+        dateTimeElement.textContent = formattedDateTime;
+      }
+    }
+    
+    // 页面加载时立即更新一次
+    updateDateTime();
+    
+    // 每秒更新一次时间
+    setInterval(updateDateTime, 1000);
+  </script>
 </body>
 </html>

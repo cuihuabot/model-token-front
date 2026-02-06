@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>全球市场分析系统 - 实时监控</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400,500,700&display=swap">
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+    }
+    
+    /* Header styles */
+    .header {
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      color: white;
+      padding: 1.5rem 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .header-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 0.2rem;
+    }
+    
+    /* Navigation */
+    .nav {
+      background-color: #fff;
+      border-bottom: 1px solid #eaeaea;
+      padding: 0.8rem 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .nav-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-right: 2rem;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    .nav-links a:hover {
+      color: #2c3e50;
+    }
+    
+    /* Main container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    /* Dashboard */
+    .dashboard {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 2rem;
+    }
+    
+    .dashboard-title {
+      font-size: 1.8rem;
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 3px solid #3498db;
+      display: flex;
+      align-items: center;
+    }
+    
+    .dashboard-title::before {
+      content: "🌍";
+      margin-right: 0.5rem;
+      font-size: 1.5rem;
+    }
+    
+    .dashboard-description {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+    
+    .analysis-section {
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: #f9f9f9;
+      border-radius: 8px;
+      border-left: 4px solid #3498db;
+    }
+    
+    .section-title {
+      font-size: 1.4rem;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .section-title::before {
+      margin-right: 0.5rem;
+    }
+    
+    .economic-events .section-title::before { content: "📅"; }
+    .arbitrage-opportunities .section-title::before { content: "💰"; }
+    .sentiment-analysis .section-title::before { content: "😊"; }
+    .market-reports .section-title::before { content: "📊"; }
+    
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    
+    .data-card {
+      background: white;
+      border-radius: 6px;
+      padding: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border: 1px solid #eee;
+    }
+    
+    .data-card strong {
+      color: #2c3e50;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    .positive { color: #27ae60; font-weight: bold; }
+    .negative { color: #e74c3c; font-weight: bold; }
+    .neutral { color: #7f8c8d; }
+    
+    .last-updated {
+      text-align: right;
+      color: #7f8c8d;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+    
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div>
+        <h1>全球市场分析系统</h1>
+        <div class="header-subtitle">基于实时数据的智能市场洞察</div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav">
+    <div class="nav-content">
+      <ul class="nav-links">
+        <li><a href="../">首页</a></li>
+        <li><a href="/model-token-front/">返回主站</a></li>
+        <li><a href="#market-analysis">市场分析</a></li>
+        <li><a href="#investment-insights">投资洞察</a></li>
+        <li><a href="#about">关于我们</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="dashboard">
+      <h1 class="dashboard-title">全球市场分析系统</h1>
+      <p class="dashboard-description">基于实时数据的全球金融市场分析、套利机会检测和社交媒体情绪监控。整合多源数据，提供全方位的市场洞察。</p>
+      
+      <div class="analysis-section economic-events">
+        <h2 class="section-title">财经日历</h2>
+        <div class="data-grid">
+          <div class="data-card">
+            <strong>2026-02-07 08:30</strong>
+            <div>USD - 非农就业人数</div>
+            <div>影响: <span class="positive">High</span></div>
+          </div>
+          <div class="data-card">
+            <strong>2026-02-07 10:00</strong>
+            <div>USD - 失业率</div>
+            <div>影响: <span class="positive">High</span></div>
+          </div>
+          <div class="data-card">
+            <strong>2026-02-08 16:00</strong>
+            <div>EUR - ECB利率决议</div>
+            <div>影响: <span class="positive">High</span></div>
+          </div>
+          <div class="data-card">
+            <strong>2026-02-09 08:00</strong>
+            <div>JPY - 央行货币政策纪要</div>
+            <div>影响: <span class="neutral">Medium</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="analysis-section arbitrage-opportunities">
+        <h2 class="section-title">套利机会</h2>
+        <div class="data-grid">
+          <div class="data-card">
+            <strong>BTC/USDT</strong>
+            <div>从 Binance 买入，到 Coinbase 卖出</div>
+            <div>价差: <span class="positive">2.3%</span></div>
+          </div>
+          <div class="data-card">
+            <strong>ETH/USDT</strong>
+            <div>从 OKX 买入，到 Kraken 卖出</div>
+            <div>价差: <span class="positive">1.8%</span></div>
+          </div>
+          <div class="data-card">
+            <strong>SOL/USDT</strong>
+            <div>从 Bybit 买入，到 Bitget 卖出</div>
+            <div>价差: <span class="positive">1.5%</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="analysis-section sentiment-analysis">
+        <h2 class="section-title">情感分析</h2>
+        <div class="data-grid">
+          <div class="data-card">
+            <strong>@elonmusk</strong>
+            <div>关于比特币和可持续能源的最新看法...</div>
+            <div>情感: <span class="positive">positive (0.75)</span></div>
+          </div>
+          <div class="data-card">
+            <strong>@cz_binance</strong>
+            <div>新币上线公告和市场展望</div>
+            <div>情感: <span class="positive">positive (0.82)</span></div>
+          </div>
+          <div class="data-card">
+            <strong>@VitalikButerin</strong>
+            <div>Ethereum发展路线图更新</div>
+            <div>情感: <span class="positive">positive (0.68)</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="analysis-section market-reports">
+        <h2 class="section-title">综合报告</h2>
+        <div class="data-grid">
+          <div class="data-card">
+            <strong>全球市场趋势分析</strong>
+            <div>基于最新数据的市场趋势预测和投资建议...</div>
+            <div>日期: 2026-02-06</div>
+          </div>
+          <div class="data-card">
+            <strong>加密货币季度展望</strong>
+            <div>主要加密货币的季度价格预测和技术分析...</div>
+            <div>日期: 2026-02-05</div>
+          </div>
+          <div class="data-card">
+            <strong>宏观经济影响评估</strong>
+            <div>最新经济政策对数字资产市场的影响分析...</div>
+            <div>日期: 2026-02-04</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="last-updated">
+        最后更新: 2026年2月6日 16:05:30
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2026 全球市场分析系统. 提供专业的AI驱动市场分析.</p>
+      <p>基于先进人工智能技术和多源数据融合，为全球投资者提供及时、准确的市场洞察与投资决策支持。</p>
+    </div>
+  </footer>
+</body>
+</html>

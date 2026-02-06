@@ -609,7 +609,7 @@
       </div>
       
       <div class="last-updated">
-        最后更新: 2026年2月6日 16:15:30
+        最后更新: <span id="current-date-time">2026年2月6日 16:25:30</span>
       </div>
     </div>
   </div>
@@ -620,5 +620,37 @@
       <p>基于先进人工智能技术和多源数据融合，为全球投资者提供及时、准确的市场洞察与投资决策支持。</p>
     </div>
   </footer>
+
+  <script>
+    // 动态更新页面上的日期时间
+    function updateDateTime() {
+      const now = new Date();
+      // 计算北京时间 (UTC+8)
+      const beijingTime = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (8 * 3600000));
+      
+      const year = beijingTime.getFullYear();
+      const month = String(beijingTime.getMonth() + 1).padStart(2, '0');
+      const day = String(beijingTime.getDate()).padStart(2, '0');
+      const hours = String(beijingTime.getHours()).padStart(2, '0');
+      const minutes = String(beijingTime.getMinutes()).padStart(2, '0');
+      const seconds = String(beijingTime.getSeconds()).padStart(2, '0');
+      
+      const formattedDateTime = \`\${year}年\${month}月\${day}日 \${hours}:\${minutes}:\${seconds}\`;
+      
+      const dateTimeElement = document.getElementById('current-date-time');
+      if(dateTimeElement) {
+        dateTimeElement.textContent = formattedDateTime;
+      }
+      
+      // 同时更新页面标题
+      document.querySelector('.last-updated').innerHTML = '最后更新: ' + formattedDateTime;
+    }
+    
+    // 页面加载时立即更新一次
+    updateDateTime();
+    
+    // 每秒更新一次时间
+    setInterval(updateDateTime, 1000);
+  </script>
 </body>
 </html>

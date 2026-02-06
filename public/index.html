@@ -3,34 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>模型接口监控面板</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>金融市场分析系统 - 实时监控</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .header p {
+            color: #7f8c8d;
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .card h3::before {
+            content: "▶";
+            margin-right: 10px;
+            color: #3498db;
+        }
+        .event-item, .opportunity-item, .sentiment-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+        }
+        .positive { 
+            border-left-color: #2ecc71; 
+            background: #f0fff4;
+        }
+        .negative { 
+            border-left-color: #e74c3c; 
+            background: #fff5f5;
+        }
+        .neutral { 
+            border-left-color: #95a5a6; 
+            background: #f9f9f9;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        .status-bar {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .status-active {
+            background: #2ecc71;
+        }
+        .status-inactive {
+            background: #e74c3c;
+        }
+        .chart-container {
+            height: 200px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+        }
+        .chart-bar {
+            width: 40px;
+            background: linear-gradient(to top, #3498db, #2980b9);
+            margin: 0 5px;
+            border-radius: 4px 4px 0 0;
+        }
+        .chart-label {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>模型接口监控面板</h1>
-        <nav>
-            <ul>
-                <li><a href="#dashboard">仪表板</a></li>
-                <li><a href="#models">模型列表</a></li>
-                <li><a href="#settings">设置</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main id="app">
-        <section id="dashboard">
-            <h2>实时状态</h2>
-            <div id="status-cards">
-                <!-- Status cards will be populated by JavaScript -->
+    <div class="container">
+        <div class="header">
+            <h1>🧠 金融市场分析系统</h1>
+            <p>实时监控 · 智能分析 · 套利机会</p>
+        </div>
+        
+        <div class="status-bar">
+            <div>
+                <span class="status-indicator status-active"></span>
+                <strong>系统状态:</strong> 运行中
             </div>
-            <div id="charts-container">
-                <canvas id="responseTimeChart"></canvas>
-                <canvas id="availabilityChart"></canvas>
+            <div>
+                <strong>最后更新:</strong> <span id="lastUpdate"><!-- LAST_UPDATE -->2026/2/6 15:16:41<!-- /LAST_UPDATE --></span>
             </div>
-        </section>
-    </main>
+        </div>
+        
+        <div class="dashboard">
+            <div class="card">
+                <h3>📊 财经日历</h3>
+                <div id="economicEvents">
+                    <!-- START_EVENTS -->
 
-    <script src="js/main.js"></script>
+    <div class="event-item">
+      <strong>2026-02-07 08:30</strong><br>
+      <span>USD - 非农就业人数</span><br>
+      <small>影响: High</small>
+    </div>
+  
+    <div class="event-item">
+      <strong>2026-02-07 10:00</strong><br>
+      <span>USD - 失业率</span><br>
+      <small>影响: High</small>
+    </div>
+  
+    <div class="event-item">
+      <strong>2026-02-07 08:30</strong><br>
+      <span>USD - 非农就业人数</span><br>
+      <small>影响: High</small>
+    </div>
+  
+    <div class="event-item">
+      <strong>2026-02-07 10:00</strong><br>
+      <span>USD - 失业率</span><br>
+      <small>影响: High</small>
+    </div>
+  
+<!-- END_EVENTS -->
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>💰 套利机会</h3>
+                <div id="arbitrageOpportunities">
+                    <!-- START_OPPORTUNITIES -->
+
+<!-- END_OPPORTUNITIES -->
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>😊 情感分析</h3>
+                <div id="sentimentAnalysis">
+                    <!-- START_SENTIMENTS -->
+
+    <div class="sentiment-item positive">
+      <strong>@test_account</strong><br>
+      <span>Bitcoin is going to moon soon!</span><br>
+      <small>情感: positive (正面: 0.50, 负面: 0.00)</small>
+    </div>
+  
+    <div class="sentiment-item positive">
+      <strong>@test_account</strong><br>
+      <span>Bitcoin is going to moon soon!</span><br>
+      <small>情感: positive (正面: 0.50, 负面: 0.00)</small>
+    </div>
+  
+<!-- END_SENTIMENTS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>📈 综合分析报告</h3>
+            <div id="analysisReports">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>报告类型</th>
+                            <th>摘要</th>
+                            <th>生成时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- START_REPORTS -->
+<table><thead><tr><th>报告类型</th><th>摘要</th><th>生成时间</th></tr></thead><tbody>
+
+</tbody></table>
+<!-- END_REPORTS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>📈 市场情绪趋势</h3>
+            <div class="chart-container" id="marketChart">
+                <!-- Chart will be generated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>金融市场分析系统 v1.0 | 数据实时更新 | 智能分析决策</p>
+        </div>
+    </div>
+
+    <script>
+        // 页面加载完成后自动更新时间
+        document.addEventListener('DOMContentLoaded', function() {
+            // 更新最后更新时间
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = 
+                now.getFullYear() + '-' + 
+                String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                String(now.getDate()).padStart(2, '0') + ' ' +
+                String(now.getHours()).padStart(2, '0') + ':' +
+                String(now.getMinutes()).padStart(2, '0') + ':' +
+                String(now.getSeconds()).padStart(2, '0');
+        });
+    </script>
 </body>
 </html>

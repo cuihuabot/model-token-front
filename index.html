@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI市场分析报告 - 首页</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400,500,700&display=swap">
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f8f9fa;
+    }
+    
+    /* Header styles */
+    .header {
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      color: white;
+      padding: 1.5rem 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .header-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 0.2rem;
+    }
+    
+    /* Navigation */
+    .nav {
+      background-color: #fff;
+      border-bottom: 1px solid #eaeaea;
+      padding: 0.8rem 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .nav-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-right: 2rem;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    .nav-links a:hover {
+      color: #2c3e50;
+    }
+    
+    /* Main container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    /* Dashboard */
+    .dashboard {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 2rem;
+    }
+    
+    .dashboard-title {
+      font-size: 1.8rem;
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 3px solid #3498db;
+      display: flex;
+      align-items: center;
+    }
+    
+    .dashboard-title::before {
+      content: "📰";
+      margin-right: 0.5rem;
+      font-size: 1.5rem;
+    }
+    
+    .dashboard-description {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+    
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .news-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid #eee;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .news-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+    
+    .card-header {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      padding: 1rem;
+    }
+    
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    
+    .card-body {
+      padding: 1rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-meta {
+      font-size: 0.8rem;
+      color: #777;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .card-excerpt {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+    
+    .card-link {
+      display: block;
+      text-align: center;
+      background: #3498db;
+      color: white;
+      text-decoration: none;
+      padding: 0.6rem;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: background 0.2s ease;
+      margin-top: auto;
+      align-self: stretch;
+    }
+    
+    .card-link:hover {
+      background: #2980b9;
+    }
+    
+    .no-posts {
+      text-align: center;
+      padding: 3rem;
+      color: #777;
+      font-size: 1.1rem;
+    }
+    
+    .no-posts::before {
+      content: "🔍";
+      display: block;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    /* Footer */
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .nav-links li {
+        margin: 0.5rem;
+      }
+      
+      .dashboard-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div>
+        <h1>AI市场分析报告</h1>
+        <div class="header-subtitle">基于实时数据的智能市场洞察</div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav">
+    <div class="nav-content">
+      <ul class="nav-links">
+        <li><a href="/">首页</a></li>
+        <li><a href="#market-analysis">市场分析</a></li>
+        <li><a href="#investment-insights">投资洞察</a></li>
+        <li><a href="#about">关于我们</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="dashboard">
+      <h1 class="dashboard-title">最新市场分析报告</h1>
+      <p class="dashboard-description">基于AI模型分析的实时市场动态、热点追踪和投资建议。每日报告为您提供专业的市场洞察和投资策略。</p>
+      
+      <div class="news-grid" id="responses-container">
+        <!-- News articles will be loaded dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2026 AI市场分析报告平台. 提供专业的AI驱动市场分析.</p>
+      <p>基于先进人工智能技术，为投资者提供及时、准确的市场分析与投资建议。</p>
+    </div>
+  </footer>
+
+  <script>
+    // Fetch and display the list of generated pages
+    document.addEventListener('DOMContentLoaded', function() {
+      const postsContainer = document.getElementById('responses-container');
+      
+      fetch('_posts/posts-manifest.json')
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Manifest file not found');
+          }
+        })
+        .then(posts => {
+          if (posts && posts.length > 0) {
+            postsContainer.innerHTML = posts.map(post => {
+              // Create a brief excerpt from the title or model name
+              let excerpt = post.model + ' - ' + post.config;
+              if (excerpt.length > 80) {
+                excerpt = excerpt.substring(0, 80) + '...';
+              }
+              
+              return `
+                <div class="news-card">
+                  <div class="card-header">
+                    <h3 class="card-title">${post.title}</h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="card-meta">
+                      <span>📅 ${post.date}</span>
+                      <span>🤖 ${post.model}</span>
+                    </div>
+                    <div class="card-excerpt">
+                      ${excerpt}
+                    </div>
+                    <a href="_posts/${post.filename}" class="card-link">阅读全文</a>
+                  </div>
+                </div>
+              `;
+            }).join('');
+          } else {
+            postsContainer.innerHTML = '<div class="no-posts">暂无市场分析报告</div>';
+          }
+        })
+        .catch(error => {
+          console.error('Error loading posts:', error);
+          postsContainer.innerHTML = '<div class="no-posts">加载市场分析报告时出错</div>';
+        });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title | default: "AI市场分析报告" }}</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400,500,700&display=swap">
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f8f9fa;
+    }
+    
+    /* Header styles */
+    .header {
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      color: white;
+      padding: 1.5rem 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .header-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 0.2rem;
+    }
+    
+    /* Navigation */
+    .nav {
+      background-color: #fff;
+      border-bottom: 1px solid #eaeaea;
+      padding: 0.8rem 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .nav-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-right: 2rem;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    .nav-links a:hover {
+      color: #2c3e50;
+    }
+    
+    /* Main container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    /* News article style */
+    .news-article {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    
+    .article-header {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      padding: 2rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .article-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      line-height: 1.2;
+    }
+    
+    .article-meta {
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    .article-meta span {
+      margin-right: 1.5rem;
+    }
+    
+    .article-body {
+      padding: 2rem;
+    }
+    
+    .article-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    /* News-specific styles */
+    .news-section {
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .news-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    .section-title {
+      font-size: 1.4rem;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #3498db;
+      display: inline-block;
+    }
+    
+    .news-item {
+      background: #f8f9fa;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 0.8rem;
+      border-left: 3px solid #3498db;
+    }
+    
+    .news-item h4 {
+      margin: 0 0 0.3rem 0;
+      color: #2c3e50;
+      font-size: 1.1rem;
+    }
+    
+    .news-item p {
+      margin: 0;
+      color: #666;
+      font-size: 0.95rem;
+    }
+    
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    th, td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    th, td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* Dashboard for index page */
+    .dashboard {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 2rem;
+    }
+    
+    .dashboard-title {
+      font-size: 1.5rem;
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #3498db;
+    }
+    
+    /* Grid for news cards */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .news-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid #eee;
+    }
+    
+    .news-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+    
+    .card-header {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      padding: 1rem;
+    }
+    
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0;
+      line-height: 1.4;
+    }
+    
+    .card-body {
+      padding: 1rem;
+    }
+    
+    .card-meta {
+      font-size: 0.8rem;
+      color: #777;
+      margin-bottom: 0.5rem;
+    }
+    
+    .card-excerpt {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.5;
+    }
+    
+    .card-link {
+      display: block;
+      text-align: center;
+      background: #3498db;
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem;
+      margin-top: 0.8rem;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: background 0.2s ease;
+    }
+    
+    .card-link:hover {
+      background: #2980b9;
+    }
+    
+    /* Footer */
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .nav-links {
+        flex-wrap: wrap;
+      }
+      
+      .nav-links li {
+        margin: 0.5rem;
+      }
+      
+      .article-title {
+        font-size: 1.5rem;
+      }
+      
+      .article-header, .article-body {
+        padding: 1.5rem;
+      }
+      
+      .news-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Additional styles for model response content */
+    .model-response {
+      max-width: 100%;
+    }
+    
+    .actual-response {
+      background: #fff;
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border: 1px solid #e1e8ed;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .response-title {
+      font-size: 1.3rem;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .response-content {
+      line-height: 1.7;
+    }
+    
+    .response-content h3.news-subtitle {
+      color: #2980b9;
+      margin: 1.5rem 0 0.8rem 0;
+      font-size: 1.3rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid #eee;
+      display: inline-block;
+    }
+    
+    .response-content h4.news-subtitle {
+      color: #34495e;
+      margin: 1.2rem 0 0.6rem 0;
+      font-size: 1.1rem;
+    }
+    
+    .response-content h5.news-subtitle {
+      color: #7f8c8d;
+      margin: 1rem 0 0.5rem 0;
+      font-size: 1rem;
+    }
+    
+    .response-content p.news-paragraph {
+      margin: 1rem 0;
+      color: #444;
+      line-height: 1.7;
+    }
+    
+    .response-content ul, .response-content ol {
+      margin: 0.8rem 0 0.8rem 1.5rem;
+      padding-left: 1rem;
+    }
+    
+    .response-content li {
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+    
+    .response-content strong {
+      color: #2c3e50;
+      font-weight: 600;
+    }
+    
+    .response-content em {
+      color: #7f8c8d;
+      font-style: italic;
+    }
+    
+    .highlight {
+      background: linear-gradient(120deg, #e0f7fa, #bbdefb);
+      padding: 1rem;
+      border-radius: 6px;
+      border-left: 4px solid #0288d1;
+      margin: 1rem 0;
+    }
+    
+    /* Specific styles for market analysis content */
+    .market-analysis {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: 8px;
+      padding: 1.2rem;
+      margin: 1.2rem 0;
+      border-left: 4px solid #3498db;
+    }
+    
+    .market-highlight {
+      background: #fff8e1;
+      border-left: 4px solid #ffc107;
+      padding: 0.8rem;
+      margin: 0.8rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    .stock-advice {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      padding: 0.8rem;
+      margin: 0.8rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    .stock-warning {
+      background: #ffebee;
+      border-left: 4px solid #f44336;
+      padding: 0.8rem;
+      margin: 0.8rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    /* Table styles for stock analysis */
+    .stock-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .stock-table th, .stock-table td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .stock-table th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #2c3e50;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+    
+    .stock-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .stock-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    .buy-recommendation {
+      color: #4caf50;
+      font-weight: bold;
+    }
+    
+    .sell-recommendation {
+      color: #f44336;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div>
+        <h1>AI市场分析报告</h1>
+        <div class="header-subtitle">基于实时数据的智能市场洞察</div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav">
+    <div class="nav-content">
+      <ul class="nav-links">
+        <li><a href="/">首页</a></li>
+        <li><a href="/about">关于我们</a></li>
+        <li><a href="/contact">联系方式</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    {{ content }}
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2026 AI市场分析报告平台. 提供专业的AI驱动市场分析.</p>
+    </div>
+  </footer>
+</body>
+</html>

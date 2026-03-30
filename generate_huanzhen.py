@@ -1,0 +1,380 @@
+#!/usr/bin/env python3
+"""甄嬛传趣味答题页面生成器"""
+
+import json
+import os
+import re
+import subprocess
+import time
+from datetime import datetime
+from pathlib import Path
+
+PROJECT_DIR = Path(__file__).parent
+POSTS_DIR = PROJECT_DIR / "_posts"
+
+CONFIG = {
+    "topic": "甄嬛传",
+    "bg_style": "q版",
+    "question_count": 5,
+    "repo_dir": str(PROJECT_DIR),
+    "github_token": os.environ.get("GITHUB_TOKEN", ""),
+}
+
+def generate_questions(topic, count=5):
+    print("🤖 正在生成 {} 题目...".format(topic))
+    
+    questions = [
+        {
+            "question": "如果你是后宫嫔妃，以下哪种穿搭会最先领盒饭？",
+            "options": [
+                {"label": "A", "text": "低调朴素，融入群众"},
+                {"label": "B", "text": "穿纯元皇后旧衣服"},
+                {"label": "C", "text": "穿皇帝赏赐的新款式"},
+                {"label": "D", "text": "穿年轻时的衣服"}
+            ],
+            "answer": "B",
+            "explanation": "纯元皇后的旧衣服是禁忌，穿了就是自寻死路！"
+        },
+        {
+            "question": "遇到绿茶婊要害你，你会？",
+            "options": [
+                {"label": "A", "text": "直接当面戳穿"},
+                {"label": "B", "text": "默默忍受不说话"},
+                {"label": "C", "text": "将计就计，让她自食其果"},
+                {"label": "D", "text": "找皇后做主"}
+            ],
+            "answer": "C",
+            "explanation": "直接戳穿太冲动，默默忍受太窝囊。将计就计才是上策！"
+        },
+        {
+            "question": "皇帝问你和果郡王有没有私情，你会说？",
+            "options": [
+                {"label": "A", "text": "如实招来，求个痛快"},
+                {"label": "B", "text": "誓死否认到底"},
+                {"label": "C", "text": "说是被强迫的，求皇帝原谅"},
+                {"label": "D", "text": "故意提起纯元皇后，转移话题"}
+            ],
+            "answer": "B",
+            "explanation": "誓死否认！皇帝最恨被戴绿帽子，否认还有一线生机！"
+        },
+        {
+            "question": "以下哪种技能在后宫最实用？",
+            "options": [
+                {"label": "A", "text": "绣花"},
+                {"label": "B", "text": "弹琴作诗"},
+                {"label": "C", "text": "做麝香香料"},
+                {"label": "D", "text": "跳舞"}
+            ],
+            "answer": "C",
+            "explanation": "防人之心不可无！会做麝香，关键时刻能保命！"
+        },
+        {
+            "question": "华妃赐你一丈红，你会？",
+            "options": [
+                {"label": "A", "text": "乖乖领罚"},
+                {"label": "B", "text": "立刻跪下求饶"},
+                {"label": "C", "text": "大声喊冤，拉皇后下水"},
+                {"label": "D", "text": "装病晕倒"}
+            ],
+            "answer": "C",
+            "explanation": "把事情闹大！华妃虽横，也怕惊动太后和皇后！"
+        }
+    ]
+    
+    return questions[:count]
+
+
+def generate_background_image(style, topic):
+    prompt = "{}风格，搞笑动漫背景，{}主题".format(style, topic)
+    print("🎨 正在生成背景图...")
+    image_url = "https://picsum.photos/seed/huanzhen{} /1920/1080".format(int(time.time()))
+    print("   背景图 URL: {}".format(image_url))
+    return image_url
+
+
+# 根据得分返回结果
+def get_result(score, total):
+    """根据得分返回活的集数、头像和死因"""
+    percentage = score / total
+    
+    if percentage == 1.0:
+        return {
+            "episodes": "80+集",
+            "icon": "😊",
+            "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=empress&backgroundColor=ffeaa7",
+            "title": "人生赢家！",
+            "description": "你最终当上了太后！母仪天下，笑到最后！",
+            "death": "老死宫中，享尽荣华富贵"
+        }
+    elif percentage >= 0.8:
+        return {
+            "episodes": "60集",
+            "icon": "😄",
+            "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=noble&backgroundColor=ffeaa7",
+            "title": "贵妃命！",
+            "description": "你成功当上了贵妃，享尽恩宠！",
+            "death": "被新欢陷害，但风光下葬"
+        }
+    elif percentage >= 0.6:
+        return {
+            "episodes": "40集",
+            "icon": "🙂",
+            "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=consort&backgroundColor=ffeaa7",
+            "title": "嫔妃命",
+            "description": "你是个有头有脸的嫔妃，日子还算滋润。",
+            "death": "卷入宫斗，被人暗中下手"
+        }
+    elif percentage >= 0.4:
+        return {
+            "episodes": "20集",
+            "icon": "😢",
+            "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=maid&backgroundColor=ffeaa7",
+            "title": "苦命丫鬟",
+            "description": "你只是个普通丫鬟，在后宫艰难求生。",
+            "death": "替主背锅，被杖杀"
+        }
+    else:
+        return {
+            "episodes": "1集",
+            "icon": "😭",
+            "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=dead&backgroundColor=ffeaa7",
+            "title": "第一集就领盒饭！",
+            "description": "你连皇上的面都没见到，就领盒饭了...",
+            "death": "开局就因为冲撞贵人，被拖出去杖毙"
+        }
+
+
+def generate_quiz_html(questions, bg_image_url, topic, title):
+    questions_json = json.dumps(questions, ensure_ascii=False)
+    q_count = len(questions)
+    
+    results = [get_result(i, q_count) for i in range(q_count + 1)]
+    results_json = json.dumps(results, ensure_ascii=False)
+    
+    html = '''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{} - 你能活几集？</title>
+    <style>
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(139, 90, 43, 0.95), rgba(205, 133, 63, 0.9)),
+                        url('{}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+        .container {{ max-width: 800px; margin: 0 auto; padding: 20px; min-height: 100vh; }}
+        .header {{
+            text-align: center; padding: 30px 20px;
+            background: rgba(255,248,220,0.95); border-radius: 20px;
+            margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 3px solid #8B4513;
+        }}
+        .header h1 {{ font-size: 2.2em; color: #8B4513; margin-bottom: 10px; }}
+        .header .subtitle {{ font-size: 1.2em; color: #A0522D; }}
+        .quiz-container {{ background: rgba(255,248,220,0.95); border-radius: 20px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); border: 3px solid #8B4513; }}
+        .question {{ margin-bottom: 25px; padding: 20px; background: #FFF8DC; border-radius: 15px; border: 2px solid #DEB887; transition: all 0.3s ease; }}
+        .question:hover {{ border-color: #8B4513; transform: scale(1.02); }}
+        .question-number {{ display: inline-block; background: linear-gradient(135deg, #8B4513, #A0522D); color: white; width: 35px; height: 35px; line-height: 35px; text-align: center; border-radius: 50%; font-weight: bold; margin-right: 10px; }}
+        .question-text {{ font-size: 1.2em; color: #4A3728; margin: 15px 0; font-weight: 600; }}
+        .options {{ display: grid; gap: 10px; }}
+        .option {{ display: flex; align-items: center; padding: 12px 18px; background: white; border: 2px solid #DEB887; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; }}
+        .option:hover {{ background: #FFE4B5; border-color: #8B4513; transform: translateX(10px); }}
+        .option.selected {{ background: linear-gradient(135deg, #8B4513, #A0522D); color: white; border-color: #8B4513; }}
+        .option-label {{ display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #DEB887; border-radius: 50%; font-weight: bold; margin-right: 12px; flex-shrink: 0; }}
+        .option.selected .option-label {{ background: white; color: #8B4513; }}
+        .submit-btn {{ display: block; width: 100%; padding: 16px; font-size: 1.3em; font-weight: bold; color: white; background: linear-gradient(135deg, #8B4513, #A0522D); border: none; border-radius: 15px; cursor: pointer; margin-top: 25px; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(139,69,19,0.4); }}
+        .submit-btn:hover {{ transform: translateY(-3px); box-shadow: 0 8px 30px rgba(139,69,19,0.6); }}
+        .submit-btn:disabled {{ background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }}
+        .result-container {{ display: none; text-align: center; padding: 30px 20px; }}
+        .result-container.show {{ display: block; animation: fadeIn 0.8s ease; }}
+        @keyframes fadeIn {{ from {{ opacity: 0; transform: translateY(30px); }} to {{ opacity: 1; transform: translateY(0); }} }}
+        .result-icon {{ width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%; border: 5px solid #8B4513; overflow: hidden; background: white; }}
+        .result-icon img {{ width: 100%; height: 100%; object-fit: cover; }}
+        .result-icon-large {{ font-size: 80px; line-height: 120px; }}
+        .result-title {{ font-size: 2.5em; color: #8B4513; margin: 15px 0; font-weight: bold; }}
+        .result-episodes {{ font-size: 3em; color: #DC143C; margin: 10px 0; font-weight: bold; text-shadow: 2px 2px 0px #FFD700; }}
+        .result-description {{ font-size: 1.3em; color: #5D4037; margin-bottom: 20px; padding: 15px; background: #FFF8DC; border-radius: 10px; }}
+        .result-death {{ font-size: 1.1em; color: #8B0000; padding: 15px; background: #FFE4E1; border-radius: 10px; border: 2px solid #DC143C; }}
+        .result-death-title {{ font-weight: bold; margin-bottom: 8px; }}
+        .restart-btn {{ display: inline-block; padding: 15px 40px; font-size: 1.2em; color: white; background: #28a745; border: none; border-radius: 12px; cursor: pointer; margin-top: 25px; text-decoration: none; }}
+        .restart-btn:hover {{ background: #218838; }}
+        .progress-bar {{ height: 8px; background: #DEB887; border-radius: 4px; margin-bottom: 20px; overflow: hidden; }}
+        .progress-fill {{ height: 100%; background: linear-gradient(90deg, #8B4513, #A0522D); transition: width 0.3s ease; }}
+        @media (max-width: 600px) {{ .header h1 {{ font-size: 1.6em; }} .question-text {{ font-size: 1.05em; }} .container {{ padding: 10px; }} .quiz-container {{ padding: 15px; }} }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎭 {}</h1>
+            <p class="subtitle">测一测你在甄嬛传中能活几集！</p>
+        </div>
+        <div class="quiz-container" id="quiz">
+            <div class="progress-bar"><div class="progress-fill" id="progress" style="width: 0%"></div></div>
+            <div id="questions"></div>
+            <button class="submit-btn" id="submitBtn" onclick="submitQuiz()">📝 提交答案</button>
+        </div>
+        <div class="result-container" id="result">
+            <div class="result-icon" id="resultIcon"></div>
+            <div class="result-title" id="resultTitle"></div>
+            <div class="result-episodes" id="resultEpisodes"></div>
+            <div class="result-description" id="resultDescription"></div>
+            <div class="result-death">
+                <div class="result-death-title">💀 死因：</div>
+                <div id="resultDeath"></div>
+            </div>
+            <a href="javascript:location.reload()" class="restart-btn">🔄 再测一次</a>
+        </div>
+    </div>
+    <script>
+        const questions = {};
+        const results = {};
+        const userAnswers = {{}};
+        
+        function renderQuestions() {{
+            const container = document.getElementById('questions');
+            container.innerHTML = questions.map((q, idx) => `
+                <div class="question" data-index="${{idx}}">
+                    <span class="question-number">${{idx + 1}}</span>
+                    <div class="question-text">${{q.question}}</div>
+                    <div class="options">
+                        ${{q.options.map(opt => `
+                            <div class="option" data-question="${{idx}}" data-option="${{opt.label}}" onclick="selectOption(${{idx}}, '${{opt.label}}')">
+                                <span class="option-label">${{opt.label}}</span>
+                                <span class="option-text">${{opt.text}}</span>
+                            </div>
+                        `).join('')}}
+                    </div>
+                </div>
+            `).join('');
+        }}
+        
+        function selectOption(qIdx, optionLabel) {{
+            document.querySelectorAll(`.option[data-question="${{qIdx}}"]`).forEach(el => el.classList.remove('selected'));
+            document.querySelector(`.option[data-question="${{qIdx}}"][data-option="${{optionLabel}}"]`).classList.add('selected');
+            userAnswers[qIdx] = optionLabel;
+            updateProgress();
+        }}
+        
+        function updateProgress() {{
+            const answered = Object.keys(userAnswers).length;
+            const total = questions.length;
+            const percent = (answered / total) * 100;
+            document.getElementById('progress').style.width = percent + '%';
+            document.getElementById('submitBtn').disabled = answered < total;
+        }}
+        
+        function submitQuiz() {{
+            let correct = 0;
+            questions.forEach((q, idx) => {{
+                if (userAnswers[idx] === q.answer) correct++;
+            }});
+            
+            const result = results[correct];
+            
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('result').classList.add('show');
+            document.getElementById('resultIcon').innerHTML = '<img src="' + result.icon_url + '" alt="头像">';
+            document.getElementById('resultTitle').textContent = result.title;
+            document.getElementById('resultEpisodes').textContent = '存活：' + result.episodes + '集';
+            document.getElementById('resultDescription').textContent = result.description;
+            document.getElementById('resultDeath').textContent = result.death;
+        }}
+        
+        renderQuestions();
+        document.getElementById('submitBtn').disabled = true;
+    </script>
+</body>
+</html>'''.format(title, bg_image_url, title, questions_json, results_json)
+    return html
+
+
+def save_quiz_page(html, title):
+    timestamp = datetime.now().strftime("%Y-%m-%d")
+    safe_title = re.sub(r'[^\w\u4e00-\u9fa5]', '-', title)[:50]
+    filename = "{}-huanzhen-{}.html".format(timestamp, safe_title)
+    filepath = POSTS_DIR / filename
+    with open(filepath, 'w', encoding='utf-8') as f:
+        f.write(html)
+    print("✅ 页面已保存: {}".format(filepath))
+    return filename
+
+
+def update_manifest(filename, title):
+    manifest_file = POSTS_DIR / "posts-manifest.json"
+    if manifest_file.exists():
+        with open(manifest_file, 'r', encoding='utf-8') as f:
+            manifest = json.load(f)
+    else:
+        manifest = []
+    manifest.append({
+        "title": title,
+        "filename": filename,
+        "date": datetime.now().strftime("%Y-%m-%d"),
+        "model": "甄嬛传-Quiz",
+        "config": "topic={}, style={}".format(CONFIG['topic'], CONFIG['bg_style'])
+    })
+    with open(manifest_file, 'w', encoding='utf-8') as f:
+        json.dump(manifest, f, ensure_ascii=False, indent=2)
+    print("✅ Manifest 已更新")
+
+
+def push_to_github():
+    if not CONFIG["github_token"]:
+        print("⚠️ 未配置 GITHUB_TOKEN，跳过推送")
+        return False
+    print("📤 正在推送到 GitHub...")
+    try:
+        subprocess.run(["git", "config", "--global", "user.email", "bot@example.com"], cwd=CONFIG["repo_dir"], check=True)
+        subprocess.run(["git", "config", "--global", "user.name", "Quiz Bot"], cwd=CONFIG["repo_dir"], check=True)
+        subprocess.run(["git", "add", "-A"], cwd=CONFIG["repo_dir"], check=True)
+        result = subprocess.run(["git", "status", "--porcelain"], cwd=CONFIG["repo_dir"], capture_output=True, text=True)
+        if not result.stdout.strip():
+            print("ℹ️  没有新更改，跳过提交")
+            return True
+        commit_msg = "➕ 新增甄嬛传答题页面 - {}".format(datetime.now().strftime('%Y-%m-%d %H:%M'))
+        subprocess.run(["git", "commit", "-m", commit_msg], cwd=CONFIG["repo_dir"], check=True)
+        subprocess.run(["git", "push"], cwd=CONFIG["repo_dir"], check=True)
+        print("✅ 推送成功！")
+        return True
+    except subprocess.CalledProcessError as e:
+        print("❌ Git 操作失败: {}".format(e))
+        return False
+
+
+def main():
+    print("=" * 50)
+    print("🎭 甄嬛传趣味答题生成器")
+    print("=" * 50)
+    
+    topic = CONFIG["topic"]
+    bg_style = CONFIG["bg_style"]
+    question_count = CONFIG["question_count"]
+    
+    questions = generate_questions(topic, question_count)
+    print("   生成了 {} 道题目".format(len(questions)))
+    
+    bg_image = generate_background_image(bg_style, topic)
+    
+    title = "你在{}中能活几集？".format(topic)
+    html = generate_quiz_html(questions, bg_image, topic, title)
+    
+    filename = save_quiz_page(html, title)
+    update_manifest(filename, title)
+    push_to_github()
+    
+    print("=" * 50)
+    print("🎉 完成！甄嬛传答题页面已生成！")
+    print("=" * 50)
+    print("")
+    print("📍 访问地址: https://cuihuabot.github.io/model-token-front/_posts/{}".format(filename))
+
+
+if __name__ == "__main__":
+    main()

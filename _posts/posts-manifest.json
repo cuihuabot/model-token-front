@@ -276,5 +276,12 @@
     "date": "2026-03-30",
     "model": "AI-Quiz-Generator",
     "config": "topic=趣味问答, style=q版"
+  },
+  {
+    "title": "你在甄嬛传中能活几集？",
+    "filename": "2026-03-30-huanzhen-你在甄嬛传中能活几集-.html",
+    "date": "2026-03-30",
+    "model": "甄嬛传-Quiz",
+    "config": "topic=甄嬛传, style=q版"
   }
 ]

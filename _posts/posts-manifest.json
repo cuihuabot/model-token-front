@@ -297,5 +297,12 @@
     "date": "2026-03-30",
     "model": "Eat-Recommend",
     "config": "location=通州新光大中心,restaurants=18"
+  },
+  {
+    "title": "今天吃什么？通州新光大中心简餐",
+    "filename": "2026-03-30-eat-tongzhou-simple.html",
+    "date": "2026-03-30",
+    "model": "Eat-Recommend",
+    "config": "location=通州新光大中心,type=快餐简餐,restaurants=20"
   }
 ]

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今天吃什么？</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(255, 183, 77, 0.9), rgba(255, 107, 107, 0.9)),
+                        url('https://picsum.photos/seed/noodle1774842328/1920/1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .container { max-width: 700px; margin: 0 auto; padding: 20px; min-height: 100vh; }
+        .header {
+            text-align: center; padding: 40px 20px;
+            background: rgba(255,255,255,0.95); border-radius: 25px;
+            margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: 3px solid #ff6b6b;
+        }
+        .header h1 { font-size: 2.5em; color: #ff6b6b; margin-bottom: 15px; }
+        .header .subtitle { font-size: 1.3em; color: #666; margin-bottom: 15px; }
+        .location { font-size: 1.1em; color: #888; }
+        .main-recommend {
+            background: linear-gradient(135deg, #ff6b6b, #ff9f43);
+            color: white; padding: 40px; border-radius: 25px;
+            text-align: center; margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(255,107,107,0.5);
+            opacity: 0; transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .main-recommend.show { opacity: 1; transform: translateY(0); }
+        .main-recommend .label { font-size: 1.3em; margin-bottom: 20px; opacity: 0.95; }
+        .main-recommend .name { font-size: 3em; font-weight: bold; margin-bottom: 25px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .main-recommend .recommend { font-size: 1.6em; margin-bottom: 25px; background: rgba(255,255,255,0.25); padding: 18px; border-radius: 15px; }
+        .main-recommend .info { font-size: 1.3em; }
+        .main-recommend .info span { margin: 0 20px; display: inline-block; margin-top: 10px; }
+        .tags { text-align: center; margin-bottom: 30px; }
+        .tag { display: inline-block; background: #fff; color: #ff6b6b; padding: 10px 25px; border-radius: 25px; margin: 8px; font-weight: bold; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+        .refresh-btn {
+            display: block; width: 100%; padding: 22px; font-size: 1.5em;
+            font-weight: bold; color: white; background: linear-gradient(135deg, #ff6b6b, #ff9f43);
+            border: none; border-radius: 25px; cursor: pointer; margin-top: 30px;
+            transition: all 0.3s ease; box-shadow: 0 6px 25px rgba(255,107,107,0.5);
+        }
+        .refresh-btn:hover { transform: translateY(-4px); box-shadow: 0 10px 35px rgba(255,107,107,0.7); }
+        .refresh-btn:active { transform: translateY(-1px); }
+        .hint { text-align: center; color: #666; margin-top: 20px; font-size: 0.95em; opacity: 0.8; }
+        @media (max-width: 600px) { 
+            .header h1 { font-size: 2em; } 
+            .main-recommend .name { font-size: 2.2em; } 
+            .container { padding: 15px; } 
+            .header { padding: 30px 15px; }
+            .main-recommend { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍜 今天吃什么？</h1>
+            <p class="subtitle">选择困难症患者的福音</p>
+            <p class="location">📍 通州新光大中心 · 快餐简餐</p>
+        </div>
+        <div class="main-recommend" id="mainRecommend">
+            <div class="label">🎯 今日推荐</div>
+            <div class="name" id="restName">正在加载...</div>
+            <div class="recommend" id="restRecommend"></div>
+            <div class="info">
+                <span id="restRating">⭐ --</span>
+                <span id="restPrice">💰 --</span>
+                <span id="restDistance">📍 --</span>
+            </div>
+        </div>
+        <div class="tags">
+            <span class="tag">#牛肉面</span>
+            <span class="tag">#拌面</span>
+            <span class="tag">#快餐</span>
+            <span class="tag">#简餐</span>
+        </div>
+        <button class="refresh-btn" onclick="randomPick()">🎲 随机选一个</button>
+        <p class="hint">点击按钮随机推荐一家附近的快餐简餐</p>
+    </div>
+    <script>
+        // 餐厅数据
+        const restaurants = [{"name": "西部马华", "rating": "4.3", "price": "25-45元", "distance": "120m", "recommend": "牛肉面套餐"}, {"name": "二七嘉", "rating": "4.2", "price": "20-35元", "distance": "150m", "recommend": "牛肉面+小菜"}, {"name": "郑氏黄汤牛肉面", "rating": "4.4", "price": "22-38元", "distance": "180m", "recommend": "招牌牛肉面"}, {"name": "沙县小吃", "rating": "4.0", "price": "15-25元", "distance": "200m", "recommend": "拌面+蒸饺"}, {"name": "兰拉拉面", "rating": "4.2", "price": "18-30元", "distance": "250m", "recommend": "兰州拉面"}, {"name": "马子禄牛肉面", "rating": "4.1", "price": "20-35元", "distance": "220m", "recommend": "经典牛肉面"}, {"name": "杨记牛肉面", "rating": "4.0", "price": "18-32元", "distance": "280m", "recommend": "牛肉面套餐"}, {"name": "老北京炸酱面", "rating": "4.1", "price": "20-30元", "distance": "300m", "recommend": "炸酱面"}, {"name": "山西刀削面", "rating": "4.0", "price": "18-28元", "distance": "320m", "recommend": "刀削面"}, {"name": "桂林米粉", "rating": "4.1", "price": "15-25元", "distance": "350m", "recommend": "卤菜粉"}, {"name": "螺蛳粉", "rating": "4.2", "price": "18-30元", "distance": "380m", "recommend": "招牌螺蛳粉"}, {"name": "江西米粉", "rating": "4.0", "price": "16-26元", "distance": "400m", "recommend": "炒粉"}, {"name": "重庆小面", "rating": "4.1", "price": "18-28元", "distance": "420m", "recommend": "豌杂面"}, {"name": "四川担担面", "rating": "4.0", "price": "18-30元", "distance": "450m", "recommend": "担担面"}, {"name": "老碗会", "rating": "4.3", "price": "25-40元", "distance": "480m", "recommend": "biangbiang面"}, {"name": "面点王", "rating": "4.2", "price": "22-35元", "distance": "500m", "recommend": "手工水饺"}, {"name": "真功夫", "rating": "4.2", "price": "25-40元", "distance": "170m", "recommend": "香汁排骨套餐"}, {"name": "永和大王", "rating": "4.1", "price": "25-40元", "distance": "210m", "recommend": "卤肉饭套餐"}, {"name": "和合谷", "rating": "4.1", "price": "20-30元", "distance": "260m", "recommend": "宫保鸡丁饭"}, {"name": "吉野家", "rating": "4.2", "price": "30-45元", "distance": "230m", "recommend": "照烧鸡肉饭"}];
+        
+        // 随机选择
+        function randomPick() {
+            const randomIndex = Math.floor(Math.random() * restaurants.length);
+            const rest = restaurants[randomIndex];
+            
+            // 更新显示
+            document.getElementById('restName').textContent = rest.name;
+            document.getElementById('restRecommend').textContent = '💡 ' + rest.recommend;
+            document.getElementById('restRating').textContent = '⭐ ' + rest.rating;
+            document.getElementById('restPrice').textContent = '💰 ' + rest.price;
+            document.getElementById('restDistance').textContent = '📍 ' + rest.distance;
+            
+            // 动画效果
+            const recommendDiv = document.getElementById('mainRecommend');
+            recommendDiv.classList.remove('show');
+            setTimeout(() => {
+                recommendDiv.classList.add('show');
+            }, 100);
+            
+            // 滚动到推荐区域
+            recommendDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // 页面加载时自动随机选一个
+        window.onload = function() {
+            setTimeout(randomPick, 300);
+        };
+    </script>
+</body>
+</html>

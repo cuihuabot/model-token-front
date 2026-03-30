@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今天吃什么？</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(255, 159, 67, 0.9)),
+                        url('https://picsum.photos/seed/food1774841974/1920/1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; min-height: 100vh; }
+        .header {
+            text-align: center; padding: 40px 20px;
+            background: rgba(255,255,255,0.95); border-radius: 25px;
+            margin-bottom: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: 3px solid #ff6b6b;
+        }
+        .header h1 { font-size: 2.5em; color: #ff6b6b; margin-bottom: 15px; }
+        .header .subtitle { font-size: 1.3em; color: #666; margin-bottom: 15px; }
+        .location { font-size: 1.1em; color: #888; }
+        .main-recommend {
+            background: linear-gradient(135deg, #ff6b6b, #ff9f43);
+            color: white; padding: 35px; border-radius: 20px;
+            text-align: center; margin-bottom: 25px;
+            box-shadow: 0 8px 30px rgba(255,107,107,0.4);
+            opacity: 0; transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        .main-recommend.show { opacity: 1; transform: translateY(0); }
+        .main-recommend .label { font-size: 1.2em; margin-bottom: 15px; opacity: 0.9; }
+        .main-recommend .name { font-size: 2.8em; font-weight: bold; margin-bottom: 20px; }
+        .main-recommend .recommend { font-size: 1.5em; margin-bottom: 20px; background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; }
+        .main-recommend .info { font-size: 1.2em; }
+        .main-recommend .info span { margin: 0 15px; }
+        .tags { text-align: center; margin-bottom: 25px; }
+        .tag { display: inline-block; background: #fff; color: #ff6b6b; padding: 8px 20px; border-radius: 20px; margin: 5px; font-weight: bold; }
+        .other-section { background: rgba(255,255,255,0.95); border-radius: 20px; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); border: 3px solid #ff9f43; }
+        .other-section h2 { font-size: 1.8em; color: #ff9f43; margin-bottom: 20px; text-align: center; }
+        .restaurant-card {
+            background: #f8f9fa; padding: 20px; border-radius: 15px;
+            margin-bottom: 15px; border-left: 5px solid #ff9f43;
+            transition: transform 0.3s ease;
+        }
+        .restaurant-card:hover { transform: translateX(10px); }
+        .rest-name { font-size: 1.4em; font-weight: bold; color: #333; margin-bottom: 10px; }
+        .rest-info { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 10px; color: #666; }
+        .info-item { background: #fff; padding: 5px 12px; border-radius: 15px; font-size: 0.95em; }
+        .rest-recommend { font-size: 1em; color: #888; font-style: italic; }
+        .refresh-btn {
+            display: block; width: 100%; padding: 18px; font-size: 1.4em;
+            font-weight: bold; color: white; background: linear-gradient(135deg, #ff6b6b, #ff9f43);
+            border: none; border-radius: 20px; cursor: pointer; margin-top: 25px;
+            transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(255,107,107,0.4);
+        }
+        .refresh-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(255,107,107,0.6); }
+        .refresh-btn:active { transform: translateY(0); }
+        @media (max-width: 600px) { .header h1 { font-size: 1.8em; } .main-recommend .name { font-size: 2em; } .container { padding: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ 今天吃什么？</h1>
+            <p class="subtitle">不知道吃什么？让我帮你选！</p>
+            <p class="location">📍 通州新光大中心</p>
+        </div>
+        <div class="main-recommend" id="mainRecommend">
+            <div class="label">🎯 今日推荐</div>
+            <div class="name" id="restName">点击下方按钮获取推荐</div>
+            <div class="recommend" id="restRecommend"></div>
+            <div class="info">
+                <span id="restRating">⭐ --</span>
+                <span id="restPrice">💰 --</span>
+                <span id="restDistance">📍 --</span>
+            </div>
+        </div>
+        <div class="tags">
+            <span class="tag">#午餐</span>
+            <span class="tag">#外卖</span>
+            <span class="tag">#美味</span>
+            <span class="tag">#快餐</span>
+        </div>
+        <div class="other-section">
+            <h2>📋 可选餐厅</h2>
+            <div id="restaurantList"></div>
+        </div>
+        <button class="refresh-btn" onclick="randomPick()">🎲 随机选一个</button>
+    </div>
+    <script>
+        // 餐厅数据
+        const restaurants = [{"name": "麦当劳", "rating": "4.5", "price": "25-40元", "distance": "100m", "recommend": "麦辣鸡腿堡套餐"}, {"name": "肯德基", "rating": "4.4", "price": "25-45元", "distance": "200m", "recommend": "香辣鸡腿堡套餐"}, {"name": "汉堡王", "rating": "4.3", "price": "30-50元", "distance": "300m", "recommend": "皇堡套餐"}, {"name": "必胜客", "rating": "4.2", "price": "50-80元", "distance": "150m", "recommend": "超级至尊披萨"}, {"name": "德克士", "rating": "4.1", "price": "20-35元", "distance": "350m", "recommend": "咔滋脆皮鸡套餐"}, {"name": "塔斯汀中国汉堡", "rating": "4.3", "price": "20-35元", "distance": "250m", "recommend": "北京烤鸭堡"}, {"name": "萨莉亚", "rating": "4.4", "price": "40-60元", "distance": "400m", "recommend": "奶油蘑菇浓汤+米兰风味肉酱多利亚饭"}, {"name": "真功夫", "rating": "4.2", "price": "25-40元", "distance": "180m", "recommend": "香汁排骨套餐"}, {"name": "永和大王", "rating": "4.1", "price": "25-40元", "distance": "220m", "recommend": "卤肉饭套餐"}, {"name": "和合谷", "rating": "4.1", "price": "20-30元", "distance": "270m", "recommend": "宫保鸡丁饭"}, {"name": "吉野家", "rating": "4.2", "price": "30-45元", "distance": "230m", "recommend": "照烧鸡肉饭"}, {"name": "嘉和一品", "rating": "4.0", "price": "20-35元", "distance": "320m", "recommend": "皮蛋瘦肉粥+酱肉包"}, {"name": "丽华快餐", "rating": "3.8", "price": "15-25元", "distance": "380m", "recommend": "鱼香肉丝饭"}, {"name": "老乡鸡", "rating": "4.3", "price": "25-40元", "distance": "420m", "recommend": "肥西老母鸡汤套餐"}, {"name": "杨国福麻辣烫", "rating": "4.0", "price": "20-35元", "distance": "450m", "recommend": "麻辣烫套餐"}, {"name": "张亮麻辣烫", "rating": "4.0", "price": "20-35元", "distance": "480m", "recommend": "番茄麻辣烫"}, {"name": "喜家德", "rating": "4.1", "price": "30-50元", "distance": "500m", "recommend": "鲜虾三鲜水饺"}, {"name": "太二酸菜鱼", "rating": "4.4", "price": "60-80元", "distance": "550m", "recommend": "老坛酸菜鱼"}];
+        
+        // 显示餐厅列表
+        function showRestaurantList() {
+            const listDiv = document.getElementById('restaurantList');
+            listDiv.innerHTML = restaurants.map(rest => `
+                <div class="restaurant-card">
+                    <div class="rest-name">${rest.name}</div>
+                    <div class="rest-info">
+                        <span class="info-item">⭐ ${rest.rating}</span>
+                        <span class="info-item">💰 ${rest.price}</span>
+                        <span class="info-item">📍 ${rest.distance}</span>
+                    </div>
+                    <div class="rest-recommend">推荐：${rest.recommend}</div>
+                </div>
+            `).join('');
+        }
+        
+        // 随机选择
+        function randomPick() {
+            const randomIndex = Math.floor(Math.random() * restaurants.length);
+            const rest = restaurants[randomIndex];
+            
+            // 更新显示
+            document.getElementById('restName').textContent = rest.name;
+            document.getElementById('restRecommend').textContent = '💡 ' + rest.recommend;
+            document.getElementById('restRating').textContent = '⭐ ' + rest.rating;
+            document.getElementById('restPrice').textContent = '💰 ' + rest.price;
+            document.getElementById('restDistance').textContent = '📍 ' + rest.distance;
+            
+            // 动画效果
+            const recommendDiv = document.getElementById('mainRecommend');
+            recommendDiv.classList.remove('show');
+            setTimeout(() => {
+                recommendDiv.classList.add('show');
+            }, 100);
+            
+            // 滚动到推荐区域
+            recommendDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // 页面加载时显示列表
+        window.onload = function() {
+            showRestaurantList();
+            // 自动随机选一个
+            setTimeout(randomPick, 500);
+        };
+    </script>
+</body>
+</html>

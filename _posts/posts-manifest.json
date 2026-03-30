@@ -304,5 +304,12 @@
     "date": "2026-03-30",
     "model": "Eat-Recommend",
     "config": "location=通州新光大中心,type=快餐简餐,restaurants=20"
+  },
+  {
+    "title": "你是合格的猫家长吗？",
+    "filename": "2026-03-30-cat-parent-test.html",
+    "date": "2026-03-30",
+    "model": "Cat-Parent-Test",
+    "config": "questions=10"
   }
 ]

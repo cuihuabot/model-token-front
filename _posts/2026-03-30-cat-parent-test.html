@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你是合格的猫家长吗？</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(156, 136, 255, 0.9), rgba(255, 182, 193, 0.9)),
+                        url('https://picsum.photos/seed/cat1774876195/1920/1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; min-height: 100vh; }
+        .header {
+            text-align: center; padding: 40px 20px;
+            background: rgba(255,255,255,0.95); border-radius: 25px;
+            margin-bottom: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: 3px solid #9c88ff;
+        }
+        .header h1 { font-size: 2.2em; color: #9c88ff; margin-bottom: 15px; }
+        .header .subtitle { font-size: 1.3em; color: #666; margin-bottom: 15px; }
+        .quiz-container {
+            background: rgba(255,255,255,0.95); border-radius: 20px; padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border: 3px solid #9c88ff;
+        }
+        .question {
+            margin-bottom: 25px; padding: 20px; background: #f8f9fa;
+            border-radius: 15px; border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        .question:hover { border-color: #9c88ff; transform: scale(1.02); }
+        .question-number {
+            display: inline-block; background: linear-gradient(135deg, #9c88ff, #8c7ae6);
+            color: white; width: 35px; height: 35px; line-height: 35px;
+            text-align: center; border-radius: 50%; font-weight: bold; margin-right: 10px;
+        }
+        .question-text {
+            font-size: 1.2em; color: #333; margin: 15px 0; font-weight: 600;
+        }
+        .options { display: grid; gap: 10px; }
+        .option {
+            display: flex; align-items: center; padding: 12px 18px;
+            background: white; border: 2px solid #e9ecef; border-radius: 12px;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .option:hover { background: #f3f0ff; border-color: #9c88ff; transform: translateX(10px); }
+        .option.selected {
+            background: linear-gradient(135deg, #9c88ff, #8c7ae6);
+            color: white; border-color: #9c88ff;
+        }
+        .option-label {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; background: #e9ecef; border-radius: 50%;
+            font-weight: bold; margin-right: 12px; flex-shrink: 0;
+        }
+        .option.selected .option-label { background: white; color: #9c88ff; }
+        .submit-btn {
+            display: block; width: 100%; padding: 18px; font-size: 1.4em;
+            font-weight: bold; color: white; background: linear-gradient(135deg, #9c88ff, #8c7ae6);
+            border: none; border-radius: 15px; cursor: pointer; margin-top: 25px;
+            transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(156, 136, 255, 0.4);
+        }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(156, 136, 255, 0.6); }
+        .submit-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+        .progress-bar {
+            height: 8px; background: #e9ecef; border-radius: 4px;
+            margin-bottom: 20px; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; background: linear-gradient(90deg, #9c88ff, #8c7ae6);
+            transition: width 0.3s ease;
+        }
+        
+        /* 结果页面 */
+        .result-container {
+            display: none; text-align: center; padding: 40px 20px;
+            background: rgba(255,255,255,0.95); border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: 3px solid #9c88ff;
+        }
+        .result-container.show { display: block; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .result-icon {
+            width: 150px; height: 150px; margin: 0 auto 20px;
+            border-radius: 50%; border: 5px solid #9c88ff;
+            overflow: hidden; background: white;
+        }
+        .result-icon img { width: 100%; height: 100%; object-fit: cover; }
+        .result-title {
+            font-size: 2.5em; color: #9c88ff; margin: 15px 0;
+            font-weight: bold;
+        }
+        .result-message {
+            font-size: 1.5em; color: #666; margin-bottom: 20px;
+        }
+        .result-score {
+            font-size: 3em; font-weight: bold; color: #ff6b6b;
+            margin: 20px 0; text-shadow: 2px 2px 0px #ffd93d;
+        }
+        .result-description {
+            font-size: 1.2em; color: #555; margin-bottom: 30px;
+            padding: 15px; background: #f8f9fa; border-radius: 10px;
+        }
+        .result-fortune {
+            padding: 15px; margin-bottom: 15px;
+            background: #d4edda; border-radius: 10px;
+            border-left: 5px solid #28a745; text-align: left;
+        }
+        .result-suffering {
+            padding: 15px; margin-bottom: 25px;
+            background: #f8d7da; border-radius: 10px;
+            border-left: 5px solid #dc3545; text-align: left;
+        }
+        .restart-btn {
+            display: inline-block; padding: 15px 40px; font-size: 1.2em;
+            color: white; background: #28a745; border: none; border-radius: 12px;
+            cursor: pointer; margin-top: 20px; text-decoration: none;
+        }
+        .restart-btn:hover { background: #218838; }
+        
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.6em; }
+            .question-text { font-size: 1.05em; }
+            .container { padding: 10px; }
+            .quiz-container { padding: 20px; }
+            .result-title { font-size: 2em; }
+            .result-score { font-size: 2.5em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐱 你是合格的猫家长吗？</h1>
+            <p class="subtitle">10道题测测你会不会养猫！</p>
+        </div>
+        
+        <div class="quiz-container" id="quiz">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress" style="width: 0%"></div>
+            </div>
+            <div id="questions"></div>
+            <button class="submit-btn" id="submitBtn" onclick="submitQuiz()">📝 提交答案</button>
+        </div>
+        
+        <div class="result-container" id="result">
+            <div class="result-icon" id="resultIcon"></div>
+            <div class="result-title" id="resultTitle"></div>
+            <div class="result-message" id="resultMessage"></div>
+            <div class="result-score" id="resultScore"></div>
+            <div class="result-description" id="resultDescription"></div>
+            <div class="result-fortune" id="resultFortune"></div>
+            <div class="result-suffering" id="resultSuffering"></div>
+            <a href="javascript:location.reload()" class="restart-btn">🔄 再测一次</a>
+        </div>
+    </div>
+    
+    <script>
+        const questions = [{"question": "猫咪能吃以下哪种食物？", "options": [{"label": "A", "text": "巧克力"}, {"label": "B", "text": "煮熟的鸡胸肉"}, {"label": "C", "text": "洋葱"}, {"label": "D", "text": "葡萄"}], "answer": "B", "explanation": "巧克力、洋葱、葡萄对猫咪有毒，煮熟的鸡胸肉是猫咪的优质蛋白来源。"}, {"question": "猫咪每天需要喝多少水？", "options": [{"label": "A", "text": "几乎不用喝，猫粮里的水够了"}, {"label": "B", "text": "每公斤体重30-50ml水"}, {"label": "C", "text": "想喝多少喝多少，不用管"}, {"label": "D", "text": "每天喂牛奶就行"}], "answer": "B", "explanation": "猫咪每公斤体重每天需要30-50ml水，喝水不足容易得尿闭和肾病。牛奶很多猫咪乳糖不耐受，不能喂。"}, {"question": "猫咪需要多久驱一次虫？", "options": [{"label": "A", "text": "体内外一起，每月一次"}, {"label": "B", "text": "半年一次就行"}, {"label": "C", "text": "不出门就不用驱虫"}, {"label": "D", "text": "一年一次"}], "answer": "A", "explanation": "即使猫咪不出门，也需要每月一次体内外同驱，人从外面带回来的虫卵也会感染猫咪。"}, {"question": "猫咪多大可以打疫苗？", "options": [{"label": "A", "text": "两个月左右打猫三联"}, {"label": "B", "text": "出生就打"}, {"label": "C", "text": "半岁再打就行"}, {"label": "D", "text": "不用打，猫的抵抗力好"}], "answer": "A", "explanation": "猫咪两个月左右就可以打第一针猫三联，预防猫瘟、鼻支、杯状病毒。"}, {"question": "以下哪种行为是对的？", "options": [{"label": "A", "text": "经常打骂犯错的猫咪"}, {"label": "B", "text": "每天给猫咪梳毛"}, {"label": "C", "text": "长时间把猫咪关笼子里"}, {"label": "D", "text": "经常带陌生猫咪回家刺激它"}], "answer": "B", "explanation": "每天梳毛可以减少浮毛，预防毛球症。猫咪记仇不能打骂，关笼子和突然加新猫都会导致应激。"}, {"question": "猫咪软便了应该怎么办？", "options": [{"label": "A", "text": "先喂点益生菌观察，不好就去医院"}, {"label": "B", "text": "饿它一天就好了"}, {"label": "C", "text": "喂点人吃的止泻药"}, {"label": "D", "text": "不管，自己会好"}], "answer": "A", "explanation": "轻微软便可以喂益生菌调理，持续不好要去医院检查，不能随便喂人用药，也不能饿肚子。"}, {"question": "给猫咪剪指甲应该怎么剪？", "options": [{"label": "A", "text": "只剪前面透明的部分，避开血线"}, {"label": "B", "text": "剪到根部，省得再长"}, {"label": "C", "text": "不用剪，让它自己磨"}, {"label": "D", "text": "随便剪，出血也没关系"}], "answer": "A", "explanation": "剪指甲只能剪前面透明的部分，剪到血线会出血和疼痛，导致猫咪以后抗拒剪指甲。"}, {"question": "猫咪出现以下哪种情况需要立刻去医院？", "options": [{"label": "A", "text": "超过24小时没尿尿"}, {"label": "B", "text": "睡了一下午"}, {"label": "C", "text": "不想吃零食"}, {"label": "D", "text": "掉毛比平时多"}], "answer": "A", "explanation": "超过24小时没尿尿很可能是尿闭，必须立刻去医院导尿，否则会急性肾衰竭致死。"}, {"question": "猫咪掉毛严重怎么办？", "options": [{"label": "A", "text": "每天梳毛，喂点化毛膏/猫草"}, {"label": "B", "text": "剃光毛就不掉了"}, {"label": "C", "text": "把猫扔了"}], "answer": "A", "explanation": "猫咪掉毛是正常现象，每天梳毛+化毛/猫草可以预防毛球症，剃毛会伤害猫咪皮肤和自尊心。"}, {"question": "以下哪个是养猫必备？", "options": [{"label": "A", "text": "封窗"}, {"label": "B", "text": "猫衣服"}, {"label": "C", "text": "各种网红猫窝"}, {"label": "D", "text": "自动喂食器"}], "answer": "A", "explanation": "养猫必须封窗！猫咪好奇心重会跳楼，其他都是非必需品。"}];
+        const results = [{"min_score": 9, "max_score": 10, "title": "🏆 神仙级猫家长！", "emoji": "😺", "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=happycat&backgroundColor=ffeaa7", "message": "你的猫咪太幸福了！", "description": "你对猫咪的了解简直满分！猫咪跟着你吃香的喝辣的，每天无忧无虑，享受着五星级待遇，简直是猫生赢家～", "fortunate": "✅ 享的福：顿顿有肉吃，零食管够，每天被rua，生病第一时间就医，一辈子无忧无虑", "suffering": "❌ 受的罪：完全没有！"}, {"min_score": 7, "max_score": 8, "title": "👍 优秀猫家长！", "emoji": "😊", "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=goodcat&backgroundColor=ffeaa7", "message": "猫咪跟着你很幸福～", "description": "你已经掌握了大部分养猫知识，平时照顾得很到位，是个合格的铲屎官！", "fortunate": "✅ 享的福：吃住不愁，被疼爱，基本的健康有保障", "suffering": "❌ 受的罪：偶尔可能踩点小坑，但是问题不大"}, {"min_score": 5, "max_score": 6, "title": "🙂 合格猫家长！", "emoji": "😐", "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=normalcat&backgroundColor=ffeaa7", "message": "还可以继续努力哦～", "description": "你基本了解养猫常识，但是还有很多需要学习的地方，多做做功课哦！", "fortunate": "✅ 享的福：有个家，饿不着冻不着", "suffering": "❌ 受的罪：偶尔会因为主人知识不足受点委屈"}, {"min_score": 3, "max_score": 4, "title": "😢 不合格猫家长！", "emoji": "😿", "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=sadcat&backgroundColor=ffeaa7", "message": "猫咪跟着你有点委屈...", "description": "你对养猫知识了解太少了，很多行为可能会伤害到猫咪，赶紧补补功课吧！", "fortunate": "✅ 享的福：至少有个家", "suffering": "❌ 受的罪：经常因为主人的无知受罪，健康没有保障"}, {"min_score": 0, "max_score": 2, "title": "💔 别养猫了！", "emoji": "😭", "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=cryingcat&backgroundColor=ffeaa7", "message": "放过猫咪吧！", "description": "你的养猫知识严重不足，很多做法会严重伤害猫咪，甚至致死。建议先学习养猫知识再养猫！", "fortunate": "✅ 享的福：几乎没有...", "suffering": "❌ 受的罪：每天都在水深火热中，随时可能因为主人的错误操作丧命"}];
+        const userAnswers = {};
+        
+        // 渲染题目
+        function renderQuestions() {
+            const container = document.getElementById('questions');
+            container.innerHTML = questions.map((q, idx) => `
+                <div class="question" data-index="${idx}">
+                    <span class="question-number">${idx + 1}</span>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options">
+                        ${q.options.map(opt => `
+                            <div class="option" data-question="${idx}" data-option="${opt.label}" onclick="selectOption(${idx}, '${opt.label}')">
+                                <span class="option-label">${opt.label}</span>
+                                <span class="option-text">${opt.text}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 选择答案
+        function selectOption(qIdx, optionLabel) {
+            // 取消同题目的其他选项
+            document.querySelectorAll(`.option[data-question="${qIdx}"]`).forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // 选中当前选项
+            document.querySelector(`.option[data-question="${qIdx}"][data-option="${optionLabel}"]`).classList.add('selected');
+            
+            // 保存答案
+            userAnswers[qIdx] = optionLabel;
+            
+            // 更新进度条
+            updateProgress();
+        }
+        
+        // 更新进度条
+        function updateProgress() {
+            const answered = Object.keys(userAnswers).length;
+            const total = questions.length;
+            const percent = (answered / total) * 100;
+            document.getElementById('progress').style.width = percent + '%';
+            
+            // 启用/禁用提交按钮
+            document.getElementById('submitBtn').disabled = answered < total;
+        }
+        
+        // 提交答案
+        function submitQuiz() {
+            let correct = 0;
+            questions.forEach((q, idx) => {
+                if (userAnswers[idx] === q.answer) correct++;
+            });
+            
+            // 找到对应的结果
+            let result = results.find(r => correct >= r.min_score && correct <= r.max_score);
+            
+            // 显示结果
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('result').classList.add('show');
+            
+            document.getElementById('resultIcon').innerHTML = '<img src="' + result.icon_url + '" alt="猫咪头像">';
+            document.getElementById('resultTitle').textContent = result.title;
+            document.getElementById('resultMessage').textContent = result.message;
+            document.getElementById('resultScore').textContent = `${correct}/${questions.length}`;
+            document.getElementById('resultDescription').textContent = result.description;
+            document.getElementById('resultFortune').innerHTML = result.fortunate;
+            document.getElementById('resultSuffering').innerHTML = result.suffering;
+            
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // 初始化
+        renderQuestions();
+        document.getElementById('submitBtn').disabled = true;
+    </script>
+</body>
+</html>

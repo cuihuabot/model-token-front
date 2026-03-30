@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你是合格的铲屎官吗？</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(255, 121, 198, 0.9), rgba(255, 182, 193, 0.9)),
+                        url('https://picsum.photos/seed/funnycat1774876623/1920/1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; min-height: 100vh; }
+        .header {
+            text-align: center; padding: 40px 20px;
+            background: rgba(255,255,255,0.95); border-radius: 25px;
+            margin-bottom: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: 3px solid #ff79c6;
+        }
+        .header h1 { font-size: 2.2em; color: #ff79c6; margin-bottom: 15px; }
+        .header .subtitle { font-size: 1.3em; color: #666; margin-bottom: 15px; }
+        .quiz-container {
+            background: rgba(255,255,255,0.95); border-radius: 20px; padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border: 3px solid #ff79c6;
+        }
+        .question {
+            margin-bottom: 25px; padding: 20px; background: #f8f9fa;
+            border-radius: 15px; border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        .question:hover { border-color: #ff79c6; transform: scale(1.02); }
+        .question-number {
+            display: inline-block; background: linear-gradient(135deg, #ff79c6, #ff5555);
+            color: white; width: 35px; height: 35px; line-height: 35px;
+            text-align: center; border-radius: 50%; font-weight: bold; margin-right: 10px;
+        }
+        .question-text {
+            font-size: 1.2em; color: #333; margin: 15px 0; font-weight: 600;
+        }
+        .options { display: grid; gap: 10px; }
+        .option {
+            display: flex; align-items: center; padding: 12px 18px;
+            background: white; border: 2px solid #e9ecef; border-radius: 12px;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .option:hover { background: #fff0f6; border-color: #ff79c6; transform: translateX(10px); }
+        .option.selected {
+            background: linear-gradient(135deg, #ff79c6, #ff5555);
+            color: white; border-color: #ff79c6;
+        }
+        .option-label {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; background: #e9ecef; border-radius: 50%;
+            font-weight: bold; margin-right: 12px; flex-shrink: 0;
+        }
+        .option.selected .option-label { background: white; color: #ff79c6; }
+        .submit-btn {
+            display: block; width: 100%; padding: 18px; font-size: 1.4em;
+            font-weight: bold; color: white; background: linear-gradient(135deg, #ff79c6, #ff5555);
+            border: none; border-radius: 15px; cursor: pointer; margin-top: 25px;
+            transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(255, 121, 198, 0.4);
+        }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(255, 121, 198, 0.6); }
+        .submit-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+        .progress-bar {
+            height: 8px; background: #e9ecef; border-radius: 4px;
+            margin-bottom: 20px; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; background: linear-gradient(90deg, #ff79c6, #ff5555);
+            transition: width 0.3s ease;
+        }
+        
+        /* 结果页面 */
+        .result-container {
+            display: none; text-align: center; padding: 40px 20px;
+            background: rgba(255,255,255,0.95); border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: 3px solid #ff79c6;
+        }
+        .result-container.show { display: block; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .result-icon {
+            width: 150px; height: 150px; margin: 0 auto 20px;
+            border-radius: 50%; border: 5px solid #ff79c6;
+            overflow: hidden; background: white;
+        }
+        .result-icon img { width: 100%; height: 100%; object-fit: cover; }
+        .result-title {
+            font-size: 2.5em; color: #ff79c6; margin: 15px 0;
+            font-weight: bold;
+        }
+        .result-message {
+            font-size: 1.5em; color: #666; margin-bottom: 20px;
+        }
+        .result-score {
+            font-size: 3em; font-weight: bold; color: #ff5555;
+            margin: 20px 0; text-shadow: 2px 2px 0px #ffd93d;
+        }
+        .result-description {
+            font-size: 1.2em; color: #555; margin-bottom: 30px;
+            padding: 15px; background: #f8f9fa; border-radius: 10px;
+        }
+        .result-fortune {
+            padding: 15px; margin-bottom: 15px;
+            background: #d4edda; border-radius: 10px;
+            border-left: 5px solid #28a745; text-align: left;
+        }
+        .result-suffering {
+            padding: 15px; margin-bottom: 25px;
+            background: #f8d7da; border-radius: 10px;
+            border-left: 5px solid #dc3545; text-align: left;
+        }
+        .restart-btn {
+            display: inline-block; padding: 15px 40px; font-size: 1.2em;
+            color: white; background: #28a745; border: none; border-radius: 12px;
+            cursor: pointer; margin-top: 20px; text-decoration: none;
+        }
+        .restart-btn:hover { background: #218838; }
+        
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.6em; }
+            .question-text { font-size: 1.05em; }
+            .container { padding: 10px; }
+            .quiz-container { padding: 20px; }
+            .result-title { font-size: 2em; }
+            .result-score { font-size: 2.5em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐱 你是合格的铲屎官吗？</h1>
+            <p class="subtitle">10道题测测你会不会养猫！全对的都是被猫PUA成功的顶级奴才</p>
+        </div>
+        
+        <div class="quiz-container" id="quiz">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress" style="width: 0%"></div>
+            </div>
+            <div id="questions"></div>
+            <button class="submit-btn" id="submitBtn" onclick="submitQuiz()">📝 提交答案，看你家猫过的咋样</button>
+        </div>
+        
+        <div class="result-container" id="result">
+            <div class="result-icon" id="resultIcon"></div>
+            <div class="result-title" id="resultTitle"></div>
+            <div class="result-message" id="resultMessage"></div>
+            <div class="result-score" id="resultScore"></div>
+            <div class="result-description" id="resultDescription"></div>
+            <div class="result-fortune" id="resultFortune"></div>
+            <div class="result-suffering" id="resultSuffering"></div>
+            <a href="javascript:location.reload()" class="restart-btn">🔄 再测一次</a>
+        </div>
+    </div>
+    
+    <script>
+        const questions = [{"question": "猫咪趁你不注意偷吃了下面哪个，你不会揍它？", "options": [{"label": "A", "text": "你刚买的300块动物奶油蛋糕"}, {"label": "B", "text": "你藏了三天舍不得吃的小鱼干"}, {"label": "C", "text": "你刚点的还没拆的外卖"}, {"label": "D", "text": "你桌子上爬的蟑螂"}], "answer": "D", "explanation": "还得是我家宝！居然会帮妈妈抓蟑螂！今晚奖励两个罐罐！"}, {"question": "猫咪宁愿喝你杯子里的水/马桶水/洗脚水，也不喝自己水碗里的，你会？", "options": [{"label": "A", "text": "把它头按进水碗里让它喝个够"}, {"label": "B", "text": "以后自己的水都给它喝，再给它单独买个杯子"}, {"label": "C", "text": "在家各个角落放8个水碗，总有一个它喜欢"}, {"label": "D", "text": "不管，渴了自然会喝"}], "answer": "C", "explanation": "小猫咪哪有什么坏心思呢，它只是觉得你的水更香而已，多放几个碗就完事了。"}, {"question": "猫咪刚从猫砂盆里刨完屎，就踩你脸上/刚换的白床单上，你会？", "options": [{"label": "A", "text": "连猫带床单一起扔出去"}, {"label": "B", "text": "假装什么都没发生，蹭就蹭了吧"}, {"label": "C", "text": "抓过来擦干净jiojio，再默默换床单"}, {"label": "D", "text": "揍它一顿让它长长记性"}], "answer": "C", "explanation": "自己选的猫，哭着也要擦完jio。揍它有什么用？它下次还敢。"}, {"question": "猫咪半夜跑酷蹦迪，把你床头柜的手机/化妆品/杯子扫到地上摔碎了，你会？", "options": [{"label": "A", "text": "起来和它一起蹦，看谁蹦的高"}, {"label": "B", "text": "抓住胖揍一顿，让它知道谁是老大"}, {"label": "C", "text": "睡前陪它玩半小时逗猫棒消耗精力，易碎品都收起来"}, {"label": "D", "text": "把它关在客厅不让进卧室"}], "answer": "C", "explanation": "小猫咪半夜跑酷不是很正常吗？肯定是你白天没陪它玩，精力没处花。"}, {"question": "猫咪掉毛掉的你衣服上/饭里/水杯里全是，你会？", "options": [{"label": "A", "text": "把猫剃光，看它还掉不掉"}, {"label": "B", "text": "每天梳毛+常备10个粘毛器，出门前粘半小时"}, {"label": "C", "text": "习惯就好，就当免费穿貂了，吃饭挑出来就行"}, {"label": "D", "text": "把猫扔了，一了百了"}], "answer": "B", "explanation": "猫一年掉两次毛，一次掉半年。梳毛+粘毛器是养猫人的必备生存技能。"}, {"question": "猫咪软便踩了一屁股屎，还到处蹭，蹭到你沙发/被子/衣服上，你会？", "options": [{"label": "A", "text": "房子不要了，连夜搬家"}, {"label": "B", "text": "抓过来洗屁股+擦干净所有被蹭的地方"}, {"label": "C", "text": "假装没看见，等它自己干了蹭掉"}, {"label": "D", "text": "揍它一顿让它以后别踩屎"}], "answer": "B", "explanation": "自己的猫，屎屁股也要含泪洗完。揍它有什么用？它也不想踩屎啊。"}, {"question": "你给猫咪剪指甲，它嗷呜一口把你手咬出血了，你会？", "options": [{"label": "A", "text": "咬回去，看谁咬的过谁"}, {"label": "B", "text": "以后再也不剪了，任由它长吧"}, {"label": "C", "text": "戴好厚手套继续剪，剪完给个罐罐安抚"}, {"label": "D", "text": "把它牙拔了，看它还咬不咬"}], "answer": "C", "explanation": "小猫咪只是害怕而已，又不是故意的。哄哄就好了，指甲还是要剪的，不然沙发遭殃。"}, {"question": "猫咪在你新买的蚕丝被/白枕头上/机械键盘上尿了一泡，你会？", "options": [{"label": "A", "text": "原地去世，这日子没法过了"}, {"label": "B", "text": "先洗干净消毒，再排查是不是猫砂盆太脏/身体不舒服"}, {"label": "C", "text": "揍它一顿，让它长记性以后不敢尿"}, {"label": "D", "text": "以后不让它进卧室，眼不见心不烦"}], "answer": "B", "explanation": "猫咪乱尿肯定有原因，要么是猫砂盆太脏，要么是身体不舒服，先找原因再解决，揍没用。"}, {"question": "猫咪把你刚拼好的乐高/刚拆的手办/刚买的化妆品扒拉到地上摔碎了，你会？", "options": [{"label": "A", "text": "把猫也摔碎，一命抵一命"}, {"label": "B", "text": "胖揍一顿，让它知道什么东西不能碰"}, {"label": "C", "text": "以后把易碎品都放在它碰不到的地方"}, {"label": "D", "text": "以后再也不买这些东西了，省钱"}], "answer": "C", "explanation": "小猫咪知道什么？它只是手欠而已。自己的东西自己收好，别跟猫置气。"}, {"question": "你开窗户通风，猫咪半个身子都探出去看鸟，马上就要掉下去了，你会？", "options": [{"label": "A", "text": "赶紧拍个照发朋友圈，这猫居然会飞"}, {"label": "B", "text": "赶紧抱下来，第二天立刻把窗封的严严实实"}, {"label": "C", "text": "没事，猫平衡好，掉不下去"}, {"label": "D", "text": "吓唬它一下，让它知道危险"}], "answer": "B", "explanation": "封窗是养猫第一要务！没有任何商量的余地！"}];
+        const results = [{"min_score": 9, "max_score": 10, "title": "🏆 顶级猫奴！", "emoji": "😻", "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=kingcat&backgroundColor=ffeaa7", "message": "你家猫才是主子，你就是个端茶倒水的奴才！", "description": "你已经完全被猫咪pua成功了！它在家就是老大，想干嘛就干嘛，拆家不挨揍，顿顿有罐罐，连拉屎你都要凑过去看是不是健康，简直是猫生巅峰！", "fortunate": "✅ 享的福：顿顿有罐罐，零食管够，随便拆家，想睡哪睡哪，家里所有东西都是它的，心情不好还能揍铲屎官撒气", "suffering": "❌ 受的罪：完全没有！唯一的烦恼就是铲屎官太粘人，总想着抱起来亲个不停"}, {"min_score": 7, "max_score": 8, "title": "👍 优秀铲屎官！", "emoji": "😺", "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=happycat&backgroundColor=ffeaa7", "message": "你家猫日子过的相当滋润！", "description": "你已经很懂猫了，大部分时候都能伺候好主子，只有偶尔会踩点小坑，猫咪跟着你享福的日子多，受罪的日子少！", "fortunate": "✅ 享的福：吃住不愁，有人疼，偶尔拆个家也不会挨揍，时不时还有罐罐当奖励", "suffering": "❌ 受的罪：有时候会被铲屎官强行撸到不耐烦，或者生病的时候被逼着吃很苦的药"}, {"min_score": 5, "max_score": 6, "title": "🙂 合格铲屎官！", "emoji": "😼", "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=normalcat&backgroundColor=ffeaa7", "message": "还可以，马马虎虎凑活过吧", "description": "你基本了解养猫常识，虽然偶尔会因为知识不足坑到猫咪，但是大方向没错，猫咪跟着你虽然不是大富大贵，但至少日子过的安稳。", "fortunate": "✅ 享的福：饿不着冻不着，偶尔能混到个罐罐吃，大部分时候还是很自由的", "suffering": "❌ 受的罪：经常因为铲屎官不懂事被坑，比如剪指甲剪到血线，喂了不爱吃的东西，拆家会挨揍"}, {"min_score": 3, "max_score": 4, "title": "😢 铲屎官还需努力！", "emoji": "😿", "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=sadcat&backgroundColor=ffeaa7", "message": "你家猫跟着你属实有点倒霉", "description": "你对养猫知识了解太少了，经常无意中坑到猫咪，猫咪跟着你没少受委屈，赶紧多补补养猫功课吧！", "fortunate": "✅ 享的福：至少不用流浪，有个遮风挡雨的地方", "suffering": "❌ 受的罪：经常因为你的错误操作受苦，动不动就挨揍，想吃个罐罐比登天还难，家里什么东西坏了都赖它"}, {"min_score": 0, "max_score": 2, "title": "💔 放过猫咪吧！", "emoji": "😭", "icon_url": "https://api.dicebear.com/7.x/notionists/svg?seed=cryingcat&backgroundColor=ffeaa7", "message": "猫咪：我真的会谢，你还是别养猫了！", "description": "你对养猫一无所知，很多做法会严重伤害猫咪，甚至可能害死它。建议你先好好学习养猫知识，再考虑养猫的事！", "fortunate": "✅ 享的福：几乎没有，能活下来已经是奇迹了", "suffering": "❌ 受的罪：每天都在生死边缘徘徊，随时可能因为你的沙雕操作没命，拆家挨揍，尿错地方挨揍，吃错东西挨揍，总之动不动就挨揍"}];
+        const userAnswers = {};
+        
+        // 渲染题目
+        function renderQuestions() {
+            const container = document.getElementById('questions');
+            container.innerHTML = questions.map((q, idx) => `
+                <div class="question" data-index="${idx}">
+                    <span class="question-number">${idx + 1}</span>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options">
+                        ${q.options.map(opt => `
+                            <div class="option" data-question="${idx}" data-option="${opt.label}" onclick="selectOption(${idx}, '${opt.label}')">
+                                <span class="option-label">${opt.label}</span>
+                                <span class="option-text">${opt.text}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 选择答案
+        function selectOption(qIdx, optionLabel) {
+            // 取消同题目的其他选项
+            document.querySelectorAll(`.option[data-question="${qIdx}"]`).forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // 选中当前选项
+            document.querySelector(`.option[data-question="${qIdx}"][data-option="${optionLabel}"]`).classList.add('selected');
+            
+            // 保存答案
+            userAnswers[qIdx] = optionLabel;
+            
+            // 更新进度条
+            updateProgress();
+        }
+        
+        // 更新进度条
+        function updateProgress() {
+            const answered = Object.keys(userAnswers).length;
+            const total = questions.length;
+            const percent = (answered / total) * 100;
+            document.getElementById('progress').style.width = percent + '%';
+            
+            // 启用/禁用提交按钮
+            document.getElementById('submitBtn').disabled = answered < total;
+        }
+        
+        // 提交答案
+        function submitQuiz() {
+            let correct = 0;
+            questions.forEach((q, idx) => {
+                if (userAnswers[idx] === q.answer) correct++;
+            });
+            
+            // 找到对应的结果
+            let result = results.find(r => correct >= r.min_score && correct <= r.max_score);
+            
+            // 显示结果
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('result').classList.add('show');
+            
+            document.getElementById('resultIcon').innerHTML = '<img src="' + result.icon_url + '" alt="猫咪头像">';
+            document.getElementById('resultTitle').textContent = result.title;
+            document.getElementById('resultMessage').textContent = result.message;
+            document.getElementById('resultScore').textContent = `${correct}/${questions.length}`;
+            document.getElementById('resultDescription').textContent = result.description;
+            document.getElementById('resultFortune').innerHTML = result.fortunate;
+            document.getElementById('resultSuffering').innerHTML = result.suffering;
+            
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // 初始化
+        renderQuestions();
+        document.getElementById('submitBtn').disabled = true;
+    </script>
+</body>
+</html>

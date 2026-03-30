@@ -311,5 +311,12 @@
     "date": "2026-03-30",
     "model": "Cat-Parent-Test",
     "config": "questions=10"
+  },
+  {
+    "title": "你是合格的铲屎官吗？搞笑版",
+    "filename": "2026-03-30-funny-cat-test.html",
+    "date": "2026-03-30",
+    "model": "Funny-Cat-Test",
+    "config": "questions=10,搞笑版"
   }
 ]

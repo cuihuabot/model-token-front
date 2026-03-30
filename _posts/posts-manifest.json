@@ -262,5 +262,19 @@
     "config": "default-config",
     "date": "2026-02-05",
     "timestamp": "2026-02-05_04-01-22"
+  },
+  {
+    "title": "{topic}挑战赛",
+    "filename": "2026-03-30-quiz--topic-挑战赛.html",
+    "date": "2026-03-30",
+    "model": "AI-Quiz-Generator",
+    "config": "topic=趣味问答, style=q版"
+  },
+  {
+    "title": "趣味问答挑战赛",
+    "filename": "2026-03-30-quiz-趣味问答挑战赛.html",
+    "date": "2026-03-30",
+    "model": "AI-Quiz-Generator",
+    "config": "topic=趣味问答, style=q版"
   }
 ]

@@ -1,6 +1,5 @@
-title: Model Response Frontend
-email: your-email@example.com
-description: Generated frontend for model responses
+title: MBTI 性格测试
+description: 30题趣味版 MBTI 性格测试 — 抽象几何画像
 baseurl: "/model-token-front"
 url: "https://cuihuabot.github.io"
 

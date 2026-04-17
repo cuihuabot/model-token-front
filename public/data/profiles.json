@@ -1,0 +1,146 @@
+{
+  "INTJ": {
+    "role": "Architect", "role_cn": "建筑师",
+    "group": "analyst", "group_cn": "理性者",
+    "color": "#9B59B6", "palette": ["#1A1A2E", "#16213E", "#0F3460", "#533483"],
+    "icon": "🏗️", "stack": "Ni Te Fi Ne",
+    "portrait_m": "intj-architect-m_001.jpg", "portrait_f": "intj-architect-f_001.jpg",
+    "abstract": "脑子里有一座图书馆，说话像发微信语音——简洁、有重点、没废话。社交场合的INTJ像一盏探照灯：平时熄着，一旦发现有趣的话题，瞬间亮起来。讨厌无意义的闲聊，但为了长远目标愿意暂时配合。计划被打乱时内心会响起警报声。",
+    "keywords": ["战略", "独立", "追求完美", "冷峻", "深邃"]
+  },
+  "INTP": {
+    "role": "Logician", "role_cn": "逻辑学家",
+    "group": "analyst", "group_cn": "理性者",
+    "color": "#3498DB", "palette": ["#1A3A5C", "#2E6B8A", "#4A9EC9", "#85C1E9"],
+    "icon": "🔍", "stack": "Ti Ne Si Fe",
+    "portrait_m": "intp-logician-m_001.jpg", "portrait_f": "intp-logician-f_001.jpg",
+    "abstract": "脑子里住了个永远运转的实验室，对任何事都要先拆解再重组。发消息的风格是「这个问题的核心是……」，买手机会先拉一张参数对比表然后算出最优解。社交能量像手机电量，用完就真没了，需要独处充电。",
+    "keywords": ["逻辑", "分析", "独立", "理性", "创新"]
+  },
+  "ENTJ": {
+    "role": "Commander", "role_cn": "指挥官",
+    "group": "analyst", "group_cn": "理性者",
+    "color": "#8E44AD", "palette": ["#2C0A4A", "#4A1A7A", "#7B2DAD", "#A569D6"],
+    "icon": "🎯", "stack": "Te Ni Se Fi",
+    "portrait_m": "entj-commander-m_001.jpg", "portrait_f": "entj-commander-f_001.jpg",
+    "abstract": "自带指挥官气场，说话直接像发红头文件，永远在思考「最优解是什么」。开会时INTJ还在画蓝图，ENTJ已经开始排工期了。讨厌磨叽和借口，喜欢带着队伍往前冲。偶尔会因为太专注于目标而忽略身边人的情绪。",
+    "keywords": ["决断", "高效", "领导力", "战略", "直接"]
+  },
+  "ENTP": {
+    "role": "Debater", "role_cn": "辩论家",
+    "group": "analyst", "group_cn": "理性者",
+    "color": "#E67E22", "palette": ["#7D3C00", "#A85800", "#D4780A", "#F0A500"],
+    "icon": "💡", "stack": "Ne Ti Fe Si",
+    "portrait_m": "entp-debater-m_001.jpg", "portrait_f": "entp-debater-f_001.jpg",
+    "abstract": "行走的辩论队，脑子里永远有三个反对意见和四个新点子。买手机不是买手机，是在评估「哪个系统生态更值得押注」。跟ENTP聊天永远不无聊——他们能把任何话题聊成哲学思辨，自己说完还意犹未尽。计划是用来打破的，灵感才是真谛。",
+    "keywords": ["机智", "创新", "好奇", "辩论", "多变"]
+  },
+  "INFJ": {
+    "role": "Advocate", "role_cn": "倡导者",
+    "group": "diplomat", "group_cn": "理想主义者",
+    "color": "#27AE60", "palette": ["#0A3A2A", "#1A6B4A", "#2EA36A", "#5DC89A"],
+    "icon": "🧭", "stack": "Ni Fe Ti Se",
+    "portrait_m": "infj-advocate-m_001.jpg", "portrait_f": "infj-advocate-f_001.jpg",
+    "abstract": "安静地坐着，但脑子里已经把你的人生走向分析完了。INFJ有一种天赋：记住别人说过的小细节，然后在某次聊天里突然提起，让对方觉得「ta怎么还记得」。喜欢帮助别人，但需要大量独处时间来消化情绪。内在有一张清晰的理想主义蓝图。",
+    "keywords": ["理想", "洞察", "忠诚", "共情", "安静"]
+  },
+  "INFP": {
+    "role": "Mediator", "role_cn": "调解者",
+    "group": "diplomat", "group_cn": "理想主义者",
+    "color": "#1E8449", "palette": ["#0A2A1A", "#1A5A2A", "#2A8A4A", "#5ABA7A"],
+    "icon": "🌿", "stack": "Fi Ne Si Te",
+    "portrait_m": "infp-mediator-m_001.jpg", "portrait_f": "infp-mediator-f_001.jpg",
+    "abstract": "内心是一座私人美术馆，收藏着各种感受、想象和未说出口的话。INFP说话少但写字多，发朋友圈像在写诗，然后删掉。讨厌冲突，宁可自己退一步也不愿意伤害关系。买手机的标准是「这台手机能不能让我更专注地创作」。",
+    "keywords": ["浪漫", "理想", "创意", "敏感", "真诚"]
+  },
+  "ENFJ": {
+    "role": "Protagonist", "role_cn": "主角",
+    "group": "diplomat", "group_cn": "理想主义者",
+    "color": "#1ABC9C", "palette": ["#0A3A35", "#1A6A5A", "#2A9A7A", "#5ACA9A"],
+    "icon": "✨", "stack": "Fe Ni Se Ti",
+    "portrait_m": "enfj-protagonist-m_001.jpg", "portrait_f": "enfj-protagonist-f_001.jpg",
+    "abstract": "天生知道怎么让身边的人觉得自己很特别。ENFJ是那种会在你生日那天精心准备一段话的人，让你觉得被真正看见了。讨厌当面冲突，但愿意私下花两小时去化解矛盾。有一种迷人的感染力，能把周围的人带动起来一起行动。",
+    "keywords": ["魅力", "理想", "感染力", "责任", "热情"]
+  },
+  "ENFP": {
+    "role": "Campaigner", "role_cn": "竞选者",
+    "group": "diplomat", "group_cn": "理想主义者",
+    "color": "#2ECC71", "palette": ["#0A3A20", "#1A6A35", "#2A9A50", "#5ACA75"],
+    "icon": "🎪", "stack": "Ne Fi Te Si",
+    "portrait_m": "enfp-campaigner-m_001.jpg", "portrait_f": "enfp-campaigner-f_001.jpg",
+    "abstract": "世界是一张巨大的灵感清单，而ENFP永远在下一页。发消息能发成长篇小说，朋友不多但每个都能深夜三点打电话。讨厌被框架束缚，喜欢同时开三个项目然后全部半途而废。买手机的标准是「颜色好不好看」。",
+    "keywords": ["热情", "创意", "自由", "好奇", "多才"]
+  },
+  "ISTJ": {
+    "role": "Logistician", "role_cn": "物流师",
+    "group": "guardian", "group_cn": "守卫者",
+    "color": "#2471A3", "palette": ["#0A1A2A", "#1A3A5A", "#2A5A8A", "#4A8ABA"],
+    "icon": "📋", "stack": "Si Te Fi Ne",
+    "portrait_m": "istj-logistician-m_001.jpg", "portrait_f": "istj-logistician-f_001.jpg",
+    "abstract": "说话像写公文——开门见山、逻辑清晰、不来虚的。答应的事一定会做到，不是因为承诺，是因为答应了就要做到。ISTJ的桌面通常很整洁，手机里的相册按时间排列。讨厌空谈，喜欢直接讨论「怎么做」。约会从来不迟到。",
+    "keywords": ["可靠", "务实", "责任", "有序", "稳定"]
+  },
+  "ISFJ": {
+    "role": "Defender", "role_cn": "守卫者",
+    "group": "guardian", "group_cn": "守卫者",
+    "color": "#2980B9", "palette": ["#0A2A3A", "#1A4A6A", "#2A6A9A", "#4A9ACA"],
+    "icon": "🛡️", "stack": "Si Fe Ti Ne",
+    "portrait_m": "isfj-defender-m_001.jpg", "portrait_f": "isfj-defender-f_001.jpg",
+    "abstract": "记得你上次说嗓子不舒服，下次见面就带了润喉糖。ISFJ的帮助方式总是润物细无声的那种，让你事后才反应过来「原来ta一直在默默记着」。不喜欢成为焦点，但会为了保护重要的人站出来。做的比说的多很多。",
+    "keywords": ["守护", "细心", "忠诚", "务实", "谦逊"]
+  },
+  "ESTJ": {
+    "role": "Executive", "role_cn": "执行者",
+    "group": "guardian", "group_cn": "守卫者",
+    "color": "#D4AC0D", "palette": ["#3A2800", "#6A4A00", "#9A6A00", "#CAA000"],
+    "icon": "⚙️", "stack": "Te Si Ne Fi",
+    "portrait_m": "estj-executive-m_001.jpg", "portrait_f": "estj-executive-f_001.jpg",
+    "abstract": "不是发号施令，是本来就应该听我的。ESTJ擅长把混乱的事情变成井井有条的流程，擅长记住规则并在合适的时机引用。讨厌打破规则的人，也讨厌说了做不到的承诺。过年回家的ESTJ：冰箱已经分类好，春联按标准对仗贴好。",
+    "keywords": ["高效", "务实", "诚信", "传统", "果断"]
+  },
+  "ESFJ": {
+    "role": "Consul", "role_cn": "领事",
+    "group": "guardian", "group_cn": "守卫者",
+    "color": "#5DADE2", "palette": ["#0A2A3A", "#1A4A5A", "#2A6A7A", "#5A9ABA"],
+    "icon": "🤝", "stack": "Fe Si Ne Ti",
+    "portrait_m": "esfj-consul-m_001.jpg", "portrait_f": "esfj-consul-f_001.jpg",
+    "abstract": "聚会的灵魂人物，永远知道谁和谁认识、谁喜欢吃什么、谁的生日快到了。ESFJ帮忙是实打实的——不是发消息说「有什么需要帮忙的」，而是直接带着热汤出现在你家门口。讨厌冲突升级，会主动做和事佬。",
+    "keywords": ["热情", "责任", "社交", "忠诚", "关怀"]
+  },
+  "ISTP": {
+    "role": "Virtuoso", "role_cn": "技艺大师",
+    "group": "explorer", "group_cn": "探险者",
+    "color": "#BA4A00", "palette": ["#3A1500", "#7A3500", "#AA5500", "#DA7500"],
+    "icon": "🔧", "stack": "Ti Se Ni Fe",
+    "portrait_m": "istp-virtuoso-m_001.jpg", "portrait_f": "istp-virtuoso-f_001.jpg",
+    "abstract": "手机屏碎了？自己换。路由器坏了？拆开看看。ISTP解决完问题会感到深深的满足感，工具箱是他们的快乐老家。话少，但动手能力极强。不喜欢提前做计划，更愿意「到时候看情况」。情绪不外露，但会在小事上默默关心人。",
+    "keywords": ["冷静", "动手", "灵活", "实用", "空间感"]
+  },
+  "ISFP": {
+    "role": "Adventurer", "role_cn": "冒险家",
+    "group": "explorer", "group_cn": "探险者",
+    "color": "#CA6F1E", "palette": ["#3A2000", "#7A4500", "#AA6500", "#DA8500"],
+    "icon": "🎨", "stack": "Fi Se Ni Te",
+    "portrait_m": "isfp-adventurer-m_001.jpg", "portrait_f": "isfp-adventurer-f_001.jpg",
+    "abstract": "手机相册里是咖啡拉花、日落、和街角涂鸦墙。ISFP是那种突然请假买张机票去一个没人认识的小镇住一周的人。美感很强，买东西标准是「好看」和「我喜欢」。话不多说，但做的选择往往很有个人风格。",
+    "keywords": ["自由", "美感", "敏感", "好奇", "行动"]
+  },
+  "ESTP": {
+    "role": "Entrepreneur", "role_cn": "企业家",
+    "group": "explorer", "group_cn": "探险者",
+    "color": "#E74C3C", "palette": ["#3A0000", "#7A0505", "#AA1010", "#DA2020"],
+    "icon": "🚀", "stack": "Se Ti Fe Ni",
+    "portrait_m": "estp-entrepreneur-m_001.jpg", "portrait_f": "estp-entrepreneur-f_001.jpg",
+    "abstract": "活在当下这个词就是为ESTP发明的。约吃饭？十分钟后楼下见。ESTP是那种会在KTV里突然站起来切到下一首的人，社交场合永远不冷场。讨厌纸上谈兵，喜欢直接干。风险评估靠直觉，但也因此往往在别人还在想的时候已经行动了。",
+    "keywords": ["行动", "灵活", "现实", "社交", "大胆"]
+  },
+  "ESFP": {
+    "role": "Entertainer", "role_cn": "表演者",
+    "group": "explorer", "group_cn": "探险者",
+    "color": "#E67E22", "palette": ["#3A1500", "#7A3500", "#AA5500", "#DA7500"],
+    "icon": "🎤", "stack": "Se Fi Te Ni",
+    "portrait_m": "esfp-entertainer-m_001.jpg", "portrait_f": "esfp-entertainer-f_001.jpg",
+    "abstract": "朋友圈点赞王，聚会里的气氛发电机，和ESFP在一起永远不会无聊。发消息喜欢发语音，因为打字太慢说不完。买了新东西一定会拍照分享，穿搭是自我表达的一种方式。讨厌被限制，喜欢即兴发挥，享受舞台聚光灯的感觉。",
+    "keywords": ["热情", "表现", "社交", "自发", "娱乐"]
+  }
+}

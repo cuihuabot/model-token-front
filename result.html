@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>你的MBTI性格画像</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --purple: #9B59B6;
+      --purple-dark: #6C3483;
+      --purple-light: #D2B4DE;
+      --green: #27AE60;
+      --blue: #3498DB;
+      --blue-dark: #2471A3;
+      --gold: #F39C12;
+      --orange: #E67E22;
+      --bg: #F5F0FA;
+      --card: #FFFFFF;
+      --text: #2C3E50;
+      --text-light: #7F8C8D;
+      --border: #E8E8E8;
+      --shadow: 0 8px 32px rgba(155,89,182,0.12);
+      --radius: 20px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+    /* Header */
+    .result-header {
+      text-align: center;
+      padding: 32px 0 24px;
+      animation: fadeUp 0.6s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .result-label {
+      font-size: 13px;
+      color: var(--text-light);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .result-type {
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--purple), var(--blue-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .result-role {
+      font-size: 20px;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+    .result-role-cn {
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    /* Portrait */
+    .portrait-wrap {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+      animation: fadeUp 0.6s ease 0.1s both;
+    }
+    .portrait-img {
+      width: 200px;
+      height: 200px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 3px solid var(--purple-light);
+    }
+    /* Dimension bars */
+    .dim-bars {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 20px;
+      animation: fadeUp 0.6s ease 0.2s both;
+    }
+    .dim-bars-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-light);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .dim-row {
+      margin-bottom: 14px;
+    }
+    .dim-row:last-child { margin-bottom: 0; }
+    .dim-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+    .dim-labels span:last-child { color: var(--text-light); }
+    .dim-track {
+      height: 8px;
+      background: #E8E8E8;
+      border-radius: 4px;
+      overflow: visible;
+      position: relative;
+    }
+    .dim-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.8s ease;
+    }
+    .dim-marker {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--purple);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    /* Abstract description */
+    .abstract-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 24px;
+      margin-bottom: 20px;
+      animation: fadeUp 0.6s ease 0.3s both;
+    }
+    .abstract-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--purple);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .abstract-text {
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--text);
+    }
+    /* Keywords */
+    .keywords-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .keyword-tag {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      background: #F5EEF8;
+      color: var(--purple);
+    }
+    /* Retake */
+    .retake-wrap {
+      text-align: center;
+      padding: 20px;
+      animation: fadeUp 0.6s ease 0.4s both;
+    }
+    .btn-retake {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--purple);
+      border: 2px solid var(--purple);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Noto Sans SC', sans-serif;
+    }
+    .btn-retake:hover {
+      background: var(--purple);
+      color: #fff;
+    }
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+      font-size: 16px;
+    }
+    .loading::after {
+      content: '...';
+      animation: dots 1.5s infinite;
+    }
+    @keyframes dots {
+      0%, 20% { content: '.'; }
+      40% { content: '..'; }
+      60%, 100% { content: '...'; }
+    }
+  </style>
+</head>
+<body>
+<div class="container" id="app">
+  <div class="loading">正在计算你的性格类型</div>
+</div>
+
+<script>
+// MBTI color scheme
+const DIM_COLORS = {
+  EI: { left: '#9B59B6', right: '#27AE60', leftLabel: '内向 I', rightLabel: '外向 E' },
+  SN: { left: '#27AE60', right: '#3498DB', leftLabel: '实感 S', rightLabel: '直觉 N' },
+  TF: { left: '#F39C12', right: '#3498DB', leftLabel: '感性 F', rightLabel: '理性 T' },
+  JP: { left: '#E67E22', right: '#9B59B6', leftLabel: '知觉 P', rightLabel: '判断 J' },
+};
+
+async function init() {
+  const data = sessionStorage.getItem('mbti_result');
+  if (!data) {
+    window.location.href = 'quiz.html';
+    return;
+  }
+  const result = JSON.parse(data);
+  const gender = sessionStorage.getItem('mbti_gender') || 'm';
+
+  // Load profiles
+  let profiles = {};
+  try {
+    const res = await fetch('data/profiles.json');
+    profiles = await res.json();
+  } catch (e) {
+    console.error('Failed to load profiles.json', e);
+  }
+
+  const profile = profiles[result.type] || {};
+  const portraitFile = gender === 'f' ? profile.portrait_f : profile.portrait_m;
+  const portraitUrl = `portraits/${portraitFile}`;
+
+  // Build dimension bars
+  const dims = [
+    { key: 'EI', score: result.ei, max: 21 },
+    { key: 'SN', score: result.sn, max: 21 },
+    { key: 'TF', score: result.tf, max: 24 },
+    { key: 'JP', score: result.jp, max: 24 },
+  ];
+
+  const dimBarsHTML = dims.map(d => {
+    const cfg = DIM_COLORS[d.key];
+    const pct = ((d.score + d.max) / (2 * d.max)) * 100;
+    const clampedPct = Math.min(100, Math.max(0, pct));
+    const color = d.score >= 0 ? cfg.right : cfg.left;
+    return `
+      <div class="dim-row">
+        <div class="dim-labels">
+          <span>${cfg.leftLabel}</span>
+          <span>${cfg.rightLabel}</span>
+        </div>
+        <div class="dim-track">
+          <div class="dim-fill" style="width:${clampedPct}%;background:${color}"></div>
+          <div class="dim-marker" style="left:${clampedPct}%"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const keywordsHTML = (profile.keywords || []).map(k =>
+    `<span class="keyword-tag">${k}</span>`
+  ).join('');
+
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="result-header">
+      <div class="result-label">你的MBTI性格类型</div>
+      <div class="result-type">${result.type}</div>
+      <div class="result-role">${profile.role || ''} — ${profile.group_cn || ''}</div>
+      <div class="result-role-cn">${profile.icon || ''} ${profile.role_cn || profile.role || ''}</div>
+    </div>
+
+    <div class="portrait-wrap">
+      <img class="portrait-img" src="${portraitUrl}" alt="${result.type} ${profile.role_cn}"
+           onerror="this.style.display='none'">
+    </div>
+
+    <div class="dim-bars">
+      <div class="dim-bars-title">⚖️ 四维分析</div>
+      ${dimBarsHTML}
+    </div>
+
+    <div class="abstract-card">
+      <h3>🔮 抽象画像</h3>
+      <p class="abstract-text">${profile.abstract || '这幅画像等待与你相遇。'}</p>
+      <div class="keywords-wrap">${keywordsHTML}</div>
+    </div>
+
+    <div class="retake-wrap">
+      <a href="quiz.html" class="btn-retake">重新测试 →</a>
+    </div>
+  `;
+}
+
+init();
+</script>
+</body>
+</html>

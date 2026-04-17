@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBTI 性格测试 — 30题趣味版</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --purple: #9B59B6; --purple-dark: #6C3483; --purple-light: #D2B4DE;
+      --green: #27AE60; --green-dark: #1E8449;
+      --blue: #3498DB; --blue-dark: #2471A3;
+      --gold: #F39C12; --orange: #E67E22;
+      --bg: #F8F9FA; --card: #FFFFFF; --text: #2C3E50;
+      --text-light: #7F8C8D; --border: #E8E8E8;
+      --shadow: 0 4px 16px rgba(0,0,0,0.08); --radius: 16px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* Progress bar */
+    .progress-wrap {
+      position: sticky; top: 0; z-index: 100;
+      background: #fff;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 16px;
+    }
+    .progress-wrap.hidden { display: none; }
+    .progress-info { font-size: 14px; color: var(--text-light); white-space: nowrap; min-width: 80px; }
+    .progress-bar { flex: 1; height: 6px; background: #E8E8E8; border-radius: 3px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--green)); border-radius: 3px; transition: width 0.4s ease; width: 0%; }
+
+    /* Container */
+    .container { max-width: 720px; margin: 0 auto; padding: 32px 20px 120px; }
+
+    /* Gender selection */
+    .gender-page { text-align: center; padding-top: 40px; }
+    .gender-page h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; background: linear-gradient(135deg, var(--purple), var(--blue-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .gender-page p { color: var(--text-light); font-size: 15px; margin-bottom: 40px; line-height: 1.6; }
+    .gender-cards { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+    .gender-card {
+      width: 160px; padding: 32px 20px; border-radius: 20px;
+      background: var(--card); box-shadow: var(--shadow);
+      cursor: pointer; border: 3px solid transparent;
+      transition: all 0.25s ease;
+    }
+    .gender-card:hover { transform: translateY(-4px); border-color: var(--purple-light); box-shadow: 0 12px 32px rgba(155,89,182,0.15); }
+    .gender-card.selected { border-color: var(--purple); }
+    .gender-icon { font-size: 56px; margin-bottom: 12px; display: block; }
+    .gender-label { font-size: 18px; font-weight: 600; color: var(--text); }
+    .gender-sub { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+    .gender-start {
+      display: block; width: 100%; margin-top: 40px;
+      padding: 16px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      color: #fff; font-size: 16px; font-weight: 600;
+      border: none; cursor: pointer; font-family: 'Noto Sans SC', sans-serif;
+      box-shadow: 0 4px 16px rgba(155,89,182,0.3);
+      transition: all 0.2s;
+    }
+    .gender-start:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(155,89,182,0.4); }
+    .gender-start:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    /* Question card */
+    .question-card {
+      background: var(--card); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 28px 24px; margin-bottom: 24px;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .dimension-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 500; padding: 4px 10px;
+      border-radius: 20px; margin-bottom: 16px;
+    }
+    .dimension-label.ei { background: #F5EEF8; color: var(--purple); }
+    .dimension-label.sn { background: #E8F8F5; color: var(--green); }
+    .dimension-label.tf { background: #EBF5FB; color: var(--blue); }
+    .dimension-label.jp { background: #FEF9E7; color: var(--gold); }
+    .question-number { font-size: 13px; color: var(--text-light); margin-bottom: 8px; }
+    .question-text { font-size: 17px; font-weight: 500; line-height: 1.6; margin-bottom: 20px; }
+    .options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .option-card {
+      display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+      border: 2px solid var(--border); border-radius: 12px;
+      cursor: pointer; transition: all 0.2s; background: #fff;
+    }
+    .option-card:hover { border-color: var(--purple-light); background: #FAF0FA; transform: translateY(-1px); }
+    .option-card.selected { border-color: var(--purple); background: #F5EEF8; }
+    .option-letter {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #F0F0F0; display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: var(--text-light); flex-shrink: 0; transition: all 0.2s;
+    }
+    .option-card.selected .option-letter { background: var(--purple); color: #fff; }
+    .option-text { font-size: 14px; line-height: 1.5; }
+
+    /* Section header */
+    .section-header { text-align: center; padding: 40px 20px 20px; }
+    .section-header h2 { font-size: 22px; margin-bottom: 8px; }
+    .section-header p { color: var(--text-light); font-size: 14px; }
+
+    /* Nav buttons */
+    .nav-buttons {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #fff; border-top: 1px solid var(--border);
+      padding: 16px 20px; display: flex; gap: 12px; justify-content: center; z-index: 100;
+    }
+    .btn { padding: 14px 32px; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; font-family: 'Noto Sans SC', sans-serif; }
+    .btn-prev { background: #fff; color: var(--text-light); border: 2px solid var(--border); }
+    .btn-prev:hover { background: var(--bg); }
+    .btn-next, .btn-submit {
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      color: #fff; box-shadow: 0 4px 12px rgba(155,89,182,0.3);
+    }
+    .btn-next:hover, .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(155,89,182,0.4); }
+    .btn-next:disabled, .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .btn-submit { background: linear-gradient(135deg, var(--green), var(--green-dark)); box-shadow: 0 4px 12px rgba(39,174,96,0.3); }
+    .btn-start { background: var(--purple); color: #fff; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<div class="progress-wrap hidden" id="progressWrap">
+  <div class="progress-info" id="progressInfo">1/30</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="container" id="app"></div>
+
+<div class="nav-buttons hidden" id="navWrap">
+  <button class="btn btn-prev hidden" id="btnPrev" onclick="prevQuestion()">← 上一题</button>
+  <button class="btn btn-next" id="btnNext" onclick="nextQuestion()" disabled>下一题 →</button>
+  <button class="btn btn-submit hidden" id="btnSubmit" onclick="submitQuiz()">查看结果 →</button>
+</div>
+
+<script>
+// ============================================================
+// 30题抽象趣味版
+// direction: 1=正向(G→字母), -1=反向(A→字母)
+// ============================================================
+const QUESTIONS = [
+  { dim:"EI", q:1, text:"被拉进一个微信群，里面全是陌生人，你会？", options:["进群后第一时间开免打扰","潜水三天后悄悄把群设成免打扰","进群看看，但不说话，等别人主动破冰","有人发消息就看看，当追剧","忍不住在群里打了个招呼，然后开始潜水观察","主动挨个加好友扩充通讯录","已经成为群里的气氛担当，和每个人都聊得来"], direction:1 },
+  { dim:"EI", q:2, text:"赶飞机，航班临时取消了，值机口一片混乱，你会？", options:["当场崩溃，开始在值机口大声质问工作人员","脸色铁青，强装镇定打电话改签","内心焦虑，但表面平静，开始刷航司App找替代方案","冷静处理，同时问旁边的人要不要一起拼车","打完改签电话，顺便安慰了一下旁边快哭的女生","一边打电话改签一边吃机场买的盒饭，好像什么都没发生","改签完还有心情跟旁边同样延误的人聊了起来，已经是朋友了"], direction:1 },
+  { dim:"EI", q:3, text:"公司年会，老板说「去认识一下隔壁部门的张总」，你跟张总从没见过面，你会？", options:["端着酒杯直接走过去：您好，我是xxx，久仰大名","快速搜了一下张总是谁，想好话题再过去","硬着头皮过去，简单自我介绍两句就想撤退","在远处观察张总，找个自然一点的时机再过去","在脑子里演练了三遍开场白，演练完还是没过去","假装去洗手间，从此再也不回那个区域","根本没去，坐在角落刷手机，祈祷老板不要看到我"], direction:-1 },
+  { dim:"EI", q:4, text:"餐厅排队等位，旁边一个人在看一本你也很喜欢的书，你会？", options:["假装没看见，看书就看书，搭讪什么","偷偷看了一眼书名，想说什么又没说出口","犹豫了十秒钟，决定不打扰人家","内心纠结了一下，最后还是说了：「这本书我也超喜欢！」","主动搭话，聊了一路，等位的时候已经交换了微信","开启聊天模式，等位完了你们还在聊，饭都吃完了成了朋友","书友你好我叫xxx，这是我的读书分享群二维码"], direction:1 },
+  { dim:"EI", q:5, text:"一个普通的工作日晚上，你本来没什么安排，你会？", options:["早就想好了晚上要做什么：刷剧、健身、看书","大概有个方向，但很模糊","看看朋友圈再说，看到什么可能就是什么","临时起意想出门，但想了想还是算了","突然想去一家店，穿好衣服就出门了","躺在床上玩手机，一动不动到睡觉","我没有计划就是我的计划，随时可以被朋友一个消息叫出去"], direction:1 },
+  { dim:"EI", q:6, text:"写论文/报告的时候，你的节奏是？", options:["每天写一点，稳步推进，deadline对我无效","前中期每天写一点，最后一周冲刺","deadline前两周开始有紧迫感","deadline前一周开始感到焦虑","deadline前三天开始慌","deadline前一天晚上开始熬夜","不到最后72小时不动工，灵感需要压迫"], direction:-1 },
+  { dim:"EI", q:7, text:"假期第一天，有一堆杂事等着你（还信用卡、缴物业费、洗衣服），你会？", options:["假期第一天就干活？不可能！先躺一天","下午再弄，上午属于休息","拖着不想干，但心里一直惦记","早起把杂事先处理了，剩下的假期心安理得地玩","早上八点全部搞定，十点已经在外面浪了","前一晚设好闹钟，第二天一早全部清空，下午开了两把游戏","假期第三天才想起来杂事还没处理"], direction:1 },
+  { dim:"SN", q:8, text:"朋友跟你说：「如果我们都有一架私人飞机，世界会怎样？」你会？", options:["想这个干嘛，不如想想晚饭吃什么","跟着乐一下，但这问题没意义","觉得朋友脑洞挺大，随便聊两句","开始认真想各种可能性","你比他还想得多，延伸出一整套平行世界设定","直接接过话茬开始补充：「如果有了私人飞机，首先……」","你是那个提出「如果有私人飞机」这个想法的人"], direction:-1 },
+  { dim:"SN", q:9, text:"听别人讲一个计划，你的关注点是？", options:["这个计划听起来浪不浪漫","这个想法有没有意思","偶尔想想可能性","开始想：这个计划现实吗？资金从哪来？","脑子里自动拆解成步骤，开始算可行性","你说：等一下，第一步是什么，风险怎么管控","你是那个问「为什么不能这样」并提出创新方案的人"], direction:-1 },
+  { dim:"SN", q:10, text:"看完一部电影，有人说「这个结局其实是在暗喻……」你会？", options:["结局就是结局，有什么好解读的","偶尔听听，觉得有点意思","可以接受，但自己不会主动想","你也会跟着想想这些深层解读","你觉得这些解读让电影更有意思了","主动问：「你们觉得那个符号代表什么？」","你才是那个主动分析结局象征意义的人，散场后还在给朋友讲解"], direction:-1 },
+  { dim:"SN", q:11, text:"一群人在聊「如果AI有意识了会怎样」，你会？", options:["这种没有答案的问题聊来干嘛","听一耳朵，但不参与","听着但不说话，当听众","偶尔插一句嘴","认真参与讨论，提出自己的想法","已经预设了好几个反驳角度","这场讨论是你引发的，你已经画了一张思维导图"], direction:-1 },
+  { dim:"SN", q:12, text:"有人说「我们来讨论一下10年后世界会是什么样子」，你会？", options:["与其想未来，不如想想明天吃什么","想一下可以，但不会太认真","听听别人的想法，但不参与","愿意参与讨论","对这类话题很感兴趣","你已经在脑子里构建了三个未来世界的模型","你是那个让大家开始讨论的人，讨论完你总结了一份2035预测报告"], direction:-1 },
+  { dim:"SN", q:13, text:"遇到一个老问题，有成熟解法，但也有一个很创新的思路，你会？", options:["用成熟解法，前人经验是宝藏","主要用老方法，偶尔试试新思路","偏向用有经验证的方案","有时候会想试试新思路","你觉得创新思路更有意思","老方法只是参考项，你想的是怎么另辟蹊径","你已经开始研究那个创新思路的可操作性了"], direction:-1 },
+  { dim:"SN", q:14, text:"你对生活中的细节感知是？", options:["包装上的设计？用完就忘了","偶尔注意到某个设计很精妙","会看一眼，但不会细想","买东西的时候会顺手看看包装设计","你会主动研究产品包装的设计逻辑","看到好东西的包装会拍照存档","你是那个给朋友分析包装设计美学的人"], direction:-1 },
+  { dim:"TF", q:15, text:"团队讨论，你的方案数据更强，但大部分同事都倾向另一个方案，你会？", options:["用数据说服他们，一条一条列出来","坚持自己的观点，但语气温和一点","听一下大家意见，但内心还是觉得自己的对","有点动摇，开始反思是不是忽略了什么","算了，伤了和气不好，少数服从多数","放弃自己的方案，维护团队氛围最重要","你已经在想怎么在他们的方案里融入自己的数据了"], direction:1 },
+  { dim:"TF", q:16, text:"朋友兴致勃勃地给你看她新学的吉他弹唱，弹得不太好听，你会说？", options:["我觉得有待提高……（直接版）","技巧上还需要多练练（委婉版）","不错不错，继续加油","有进步！但感觉还差一点","超级好听！（内心已经开始想怎么转移话题）","热情鼓励，夸到她都不好意思了","「超级好听！真的！」然后祈祷她不要要求你听第二遍"], direction:-1 },
+  { dim:"TF", q:17, text:"出门旅行，飞机还有两小时起飞，你会？", options:["两小时呢，急什么，慢慢来","差不多时间出发就行","提前一小时到机场","提前两小时，怕路上堵车","提前三小时，在机场刷航班动态","提前四小时，已经在登机口等着了","前一晚就睡不着，反复确认了三遍行李"], direction:-1 },
+  { dim:"TF", q:18, text:"和朋友争论一件有对错的事，最后发现其实你错了，你会？", options:["当场认错：不好意思，你说对了","承认错了，但还要找补一点面子","沉默，然后小声说「好吧可能是我的问题」","不会直接认错，但态度会软化","坚持自己是对的，即使心里知道错了","你能用逻辑把黑的圆成白的","一套一套把对方说到怀疑自己错了"], direction:-1 },
+  { dim:"TF", q:19, text:"看一部感人的电影，开场十分钟哭得稀里哗啦，散场的时候你已经走出来了，你朋友还在感慨。你？", options:["全程很淡定，甚至有点困","有点感动，但很快就恢复","电影结束了情绪也平复了","出了电影院还在回味，但已经缓过来了","你是那个哭得最凶但也是恢复最快的","电影结束了你还在哭","发了条朋友圈，配文：「哭到纸巾不够用」"], direction:-1 },
+  { dim:"TF", q:20, text:"选offer。两家公司薪资差不多，A公司大平台稳定，B公司团队氛围让你觉得超棒，你会？", options:["列个表格打分，量化对比","参考直觉，但主要还是看数据","想了很久，觉得A更稳妥","有点想选B，但还在纠结","直觉告诉我B，但理智让我选A","B那个团队氛围让我觉得这就是命运","不用想了，就是B了，跟着感觉走"], direction:1 },
+  { dim:"TF", q:21, text:"给朋友提建议时，你更倾向于？", options:["先安慰情绪，再给建议","两个都会考虑，但情感稍多一点","先处理情绪，等平静了再说建议","建议给得很直接，但会注意语气","直接给最优建议，不管听起来是不是刺耳","建议简短直接，不浪费时间在情感交流上","效率第一：我给你三个方案，选一个执行吧"], direction:1 },
+  { dim:"TF", q:22, text:"做重要决定时（比如换工作、搬家），你会？", options:["列利弊表格，量化打分","听听各方意见，但最终靠分析","理性分析为主","也会考虑感受，但理性大于感性","心里其实已经有答案了，分析只是走个流程","主要由内心感受决定","问心，问直觉，感觉对了就冲"], direction:1 },
+  { dim:"JP", q:23, text:"你家的桌面通常是什么状态？", options:["摊开的物品永远不会归位，下次用再找","大致整洁，乱的地方自己知道在哪","用完的东西放回原位","把床铺整理一下再出门","退房前把房间整理得像没住过一样","酒店退房时还会顺手叠被子的人","不仅自己收好，还把靠垫摆正了，顺手擦了洗手台"], direction:1 },
+  { dim:"JP", q:24, text:"出门旅行，你会提前规划到哪一步？", options:["订好机票/酒店，其他到了再说","大概有个目的地，行程随缘","每天有个大概方向","提前规划每天去哪些景点","提前订好所有门票、餐饮","攻略做到第三层，Plan B准备了两套","连路上可能遇到的突发情况都想好了对策"], direction:1 },
+  { dim:"JP", q:25, text:"原本和朋友约好周六出门，早上朋友临时说改周日，你会？", options:["周日就周日呗，无所谓","轻微不悦但接受","有点失望但理解","内心有点烦，打乱了你的节奏","周六计划全打乱了，要重新调整","内心崩溃，需要当场再约一个才能平复","周六已经空出来了，重建计划很痛苦，开始质疑人生"], direction:-1 },
+  { dim:"JP", q:26, text:"你在追一个很上头的剧，同时有一篇报告要写，你会？", options:["写着写着就跑去看剧了，回来再写一点","看两集再说，反正deadline还早","看一集放松一下，然后去写报告","先把报告框架搭好，然后心安理得追剧","忍住不看，报告写完再一口气追","甚至把视频APP设成青少年模式不看剧","不写完报告绝对不看剧，这是底线"], direction:1 },
+  { dim:"JP", q:27, text:"工作中出了一个不小的失误，老板还没说什么，你会？", options:["失误是失误，但不影响我整体能力","想一下原因，下次注意","偶尔会质疑自己","开始怀疑自己是不是不适合这行","好几天都在想这个事","觉得自己很失败，睡不着","反复回想那个失误的细节，觉得自己像个废物"], direction:-1 },
+  { dim:"JP", q:28, text:"接到一个项目，项目周期两周，你会怎么开始？", options:["先干起来，计划是啥","大概想了想就开始动手了","有一个模糊的方向","先列一个简单的待办清单","拆解成任务，排出优先级","画甘特图，第一天就排出详细执行表","每天对账完成情况，Plan B已经在准备了"], direction:1 },
+  { dim:"JP", q:29, text:"老师布置了一个作业，下个月交，你会什么时候开始做？", options:["当天就开始研究，反正迟早要做","提前一周开始","提前两周开始","提前一个月想了一下但没动手","下个月前一周才动","下个月前两天才开始慌","最后一天凌晨两点开始赶工"], direction:-1 },
+  { dim:"JP", q:30, text:"你对「计划赶不上变化」这句话的态度是？", options:["我的计划一定赶得上变化，因为我会做Plan B","计划要有，但也要灵活调整","计划是参考，走一步看一步","有点道理，计划不需要太死板","说的就是我，我就是那个计划被打乱的人","你讨厌计划被打乱","你没有计划就是最好的计划"], direction:-1 },
+];
+
+const DIM_CONFIG = {
+  EI:{ label:"E/I 外向—内向", color:"ei", icon:"🔋" },
+  SN:{ label:"S/N 实感—直觉", color:"sn", icon:"🔮" },
+  TF:{ label:"T/F 理性—感性", color:"tf", icon:"⚖️" },
+  JP:{ label:"J/P 判断—知觉", color:"jp", icon:"🗂️" },
+};
+const LETTERS = ["A","B","C","D","E","F","G"];
+
+// State
+let currentQ = 0;
+let answers = new Array(30).fill(null);
+let selectedGender = sessionStorage.getItem('mbti_gender') || null;
+
+// Init
+function init() {
+  render();
+}
+
+function render() {
+  if (!selectedGender) {
+    renderGenderPage();
+  } else {
+    renderQuiz();
+  }
+}
+
+// ── Gender selection ──────────────────────────────────────────
+function renderGenderPage() {
+  document.getElementById('progressWrap').classList.add('hidden');
+  document.getElementById('navWrap').classList.add('hidden');
+  document.getElementById('app').innerHTML = `
+    <div class="gender-page">
+      <h1>🧠 MBTI 性格测试</h1>
+      <p>30题趣味版 · 发现你的性格画像<br>请先选择你的性别</p>
+      <div class="gender-cards">
+        <div class="gender-card${selectedGender==='m'?' selected':''}" onclick="selectGender('m')">
+          <span class="gender-icon">👨</span>
+          <div class="gender-label">男</div>
+          <div class="gender-sub">Male</div>
+        </div>
+        <div class="gender-card${selectedGender==='f'?' selected':''}" onclick="selectGender('f')">
+          <span class="gender-icon">👩</span>
+          <div class="gender-label">女</div>
+          <div class="gender-sub">Female</div>
+        </div>
+      </div>
+      <button class="gender-start" id="btnStart" onclick="startQuiz()" ${selectedGender?'':'disabled'}>
+        开始测试 →
+      </button>
+    </div>
+  `;
+}
+
+function selectGender(g) {
+  selectedGender = g;
+  sessionStorage.setItem('mbti_gender', g);
+  renderGenderPage();
+}
+
+function startQuiz() {
+  if (!selectedGender) return;
+  selectedGender = selectedGender;
+  renderQuiz();
+}
+
+// ── Quiz ──────────────────────────────────────────────────────
+function renderQuiz() {
+  document.getElementById('progressWrap').classList.remove('hidden');
+  document.getElementById('navWrap').classList.remove('hidden');
+
+  const q = QUESTIONS[currentQ];
+  const cfg = DIM_CONFIG[q.dim];
+  const total = QUESTIONS.length;
+  const progress = (currentQ / total) * 100;
+
+  document.getElementById('progressFill').style.width = progress + '%';
+  document.getElementById('progressInfo').textContent = `${currentQ + 1}/${total}`;
+
+  const prevBtn = document.getElementById('btnPrev');
+  const nextBtn = document.getElementById('btnNext');
+  const submitBtn = document.getElementById('btnSubmit');
+
+  prevBtn.classList.toggle('hidden', currentQ === 0);
+  submitBtn.classList.add('hidden');
+  nextBtn.classList.remove('hidden');
+
+  const saved = answers[currentQ];
+  const optionsHTML = q.options.map((text, i) => `
+    <div class="option-card${saved === i ? ' selected' : ''}" onclick="selectOption(${i})">
+      <div class="option-letter">${LETTERS[i]}</div>
+      <div class="option-text">${text}</div>
+    </div>
+  `).join('');
+
+  const isFirstOfDim = currentQ === 0 || QUESTIONS[currentQ - 1].dim !== q.dim;
+  const sectionHTML = isFirstOfDim ? `
+    <div class="section-header">
+      <h2>${cfg.icon} ${cfg.label}</h2>
+      <p>请选择最符合你的选项</p>
+    </div>
+  ` : '';
+
+  document.getElementById('app').innerHTML = `
+    ${sectionHTML}
+    <div class="question-card">
+      <div class="dimension-label ${cfg.color}">${cfg.icon} ${cfg.label}</div>
+      <div class="question-number">第 ${currentQ + 1} 题</div>
+      <div class="question-text">${q.text}</div>
+      <div class="options-grid">${optionsHTML}</div>
+    </div>
+  `;
+
+  nextBtn.disabled = answers[currentQ] === null;
+  if (currentQ === QUESTIONS.length - 1) {
+    nextBtn.classList.add('hidden');
+    submitBtn.classList.remove('hidden');
+    submitBtn.disabled = answers[currentQ] === null;
+  }
+}
+
+function selectOption(idx) {
+  answers[currentQ] = idx;
+  renderQuiz();
+}
+
+function nextQuestion() {
+  if (currentQ < QUESTIONS.length - 1) {
+    currentQ++;
+    renderQuiz();
+  }
+}
+
+function prevQuestion() {
+  if (currentQ > 0) {
+    currentQ--;
+    renderQuiz();
+  }
+}
+
+function submitQuiz() {
+  if (answers.includes(null)) { alert('请完成所有题目'); return; }
+  const result = computeMBTI(answers);
+  sessionStorage.setItem('mbti_result', JSON.stringify(result));
+  window.location.href = 'result.html';
+}
+
+function computeMBTI(answers) {
+  let ei=0, sn=0, tf=0, jp=0;
+  // E/I: Q1-Q7 (indices 0-6)
+  const ei_dir = [1,1,-1,1,1,-1,1];
+  for(let i=0;i<7;i++) ei += (answers[i]-3)*ei_dir[i];
+  // S/N: Q8-Q14 (indices 7-13) all reversed
+  for(let i=7;i<=13;i++) sn += (answers[i]-3)*-1;
+  // T/F: Q15-Q22 (indices 14-21)
+  const tf_dir = [1,-1,-1,-1,-1,1,1,1];
+  for(let i=0;i<8;i++) tf += (answers[i+14]-3)*tf_dir[i];
+  // J/P: Q23-Q30 (indices 22-29)
+  const jp_dir = [1,1,-1,1,-1,1,-1,-1];
+  for(let i=0;i<8;i++) jp += (answers[i+22]-3)*jp_dir[i];
+
+  const type = (ei>=0?'E':'I')+(sn>=0?'S':'N')+(tf>=0?'T':'F')+(jp>=0?'J':'P');
+  return { type, ei, sn, tf, jp };
+}
+
+init();
+</script>
+</body>
+</html>

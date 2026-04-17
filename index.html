@@ -2,350 +2,207 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI市场分析报告 - 首页</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400,500,700&display=swap">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBTI 性格测试 — 30题趣味版</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* Reset and base styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --purple: #9B59B6; --purple-dark: #6C3483; --purple-light: #D2B4DE;
+      --green: #27AE60; --blue: #3498DB; --blue-dark: #2471A3;
+      --gold: #F39C12; --orange: #E67E22; --red: #E74C3C;
     }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background-color: #f8f9fa;
+      font-family: 'Noto Sans SC', sans-serif;
+      background: #0D0D1A;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    
-    /* Header styles */
-    .header {
-      background: linear-gradient(135deg, #2c3e50, #34495e);
-      color: white;
-      padding: 1.5rem 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    /* Background blobs */
+    .bg-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
     }
-    
-    .header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1rem;
+    .bg-blob-1 { width: 600px; height: 600px; background: var(--purple); top: -200px; right: -100px; }
+    .bg-blob-2 { width: 500px; height: 500px; background: var(--blue-dark); bottom: -150px; left: -100px; }
+    .bg-blob-3 { width: 300px; height: 300px; background: var(--green); top: 40%; left: 60%; }
+    /* Content */
+    .content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
     }
-    
-    .header h1 {
-      font-size: 1.8rem;
-      font-weight: 600;
-      margin: 0;
-    }
-    
-    .header-subtitle {
-      font-size: 0.9rem;
-      opacity: 0.8;
-      margin-top: 0.2rem;
-    }
-    
-    /* Navigation */
-    .nav {
-      background-color: #fff;
-      border-bottom: 1px solid #eaeaea;
-      padding: 0.8rem 0;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-    
-    .nav-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1rem;
-    }
-    
-    .nav-links {
-      display: flex;
-      list-style: none;
-    }
-    
-    .nav-links li {
-      margin-right: 2rem;
-    }
-    
-    .nav-links a {
-      text-decoration: none;
-      color: #555;
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(155,89,182,0.2);
+      border: 1px solid rgba(155,89,182,0.3);
+      color: var(--purple-light);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
       font-weight: 500;
-      transition: color 0.2s ease;
+      margin-bottom: 24px;
+      animation: fadeIn 0.6s ease 0.2s both;
     }
-    
-    .nav-links a:hover {
-      color: #2c3e50;
+    .title {
+      font-size: clamp(40px, 8vw, 72px);
+      font-weight: 700;
+      line-height: 1.1;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: fadeIn 0.6s ease 0.3s both;
     }
-    
-    /* Main container */
-    .container {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+    .title-gradient {
+      background: linear-gradient(135deg, var(--purple-light), var(--blue), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    
-    /* Dashboard */
-    .dashboard {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      padding: 2rem;
-    }
-    
-    .dashboard-title {
-      font-size: 1.8rem;
-      color: #2c3e50;
-      margin-bottom: 1.5rem;
-      padding-bottom: 0.8rem;
-      border-bottom: 3px solid #3498db;
-      display: flex;
-      align-items: center;
-    }
-    
-    .dashboard-title::before {
-      content: "📰";
-      margin-right: 0.5rem;
-      font-size: 1.5rem;
-    }
-    
-    .dashboard-description {
-      font-size: 1.1rem;
-      color: #666;
-      margin-bottom: 2rem;
+    .subtitle {
+      font-size: clamp(16px, 3vw, 20px);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      max-width: 480px;
       line-height: 1.7;
+      margin-bottom: 48px;
+      animation: fadeIn 0.6s ease 0.4s both;
     }
-    
-    .news-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-    
-    .news-card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      border: 1px solid #eee;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .news-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-    }
-    
-    .card-header {
-      background: linear-gradient(135deg, #3498db, #2980b9);
-      color: white;
-      padding: 1rem;
-    }
-    
-    .card-title {
-      font-size: 1.1rem;
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 40px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      color: #fff;
+      border-radius: 16px;
+      font-size: 17px;
       font-weight: 600;
-      margin: 0;
-      line-height: 1.4;
-      word-break: break-word;
-    }
-    
-    .card-body {
-      padding: 1rem;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .card-meta {
-      font-size: 0.8rem;
-      color: #777;
-      margin-bottom: 0.8rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid #eee;
-    }
-    
-    .card-excerpt {
-      font-size: 0.9rem;
-      color: #555;
-      line-height: 1.5;
-      margin-bottom: 1rem;
-      flex-grow: 1;
-    }
-    
-    .card-link {
-      display: block;
-      text-align: center;
-      background: #3498db;
-      color: white;
       text-decoration: none;
-      padding: 0.6rem;
-      border-radius: 4px;
-      font-weight: 500;
-      transition: background 0.2s ease;
-      margin-top: auto;
-      align-self: stretch;
+      box-shadow: 0 8px 32px rgba(155,89,182,0.4);
+      transition: all 0.3s ease;
+      animation: fadeIn 0.6s ease 0.5s both;
     }
-    
-    .card-link:hover {
-      background: #2980b9;
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(155,89,182,0.5);
     }
-    
-    .no-posts {
+    /* Type showcase */
+    .type-showcase {
+      margin-top: 80px;
       text-align: center;
-      padding: 3rem;
-      color: #777;
-      font-size: 1.1rem;
+      animation: fadeIn 0.6s ease 0.6s both;
     }
-    
-    .no-posts::before {
-      content: "🔍";
-      display: block;
-      font-size: 3rem;
-      margin-bottom: 1rem;
+    .type-showcase h3 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 24px;
     }
-    
-    /* Footer */
-    footer {
-      background: #2c3e50;
-      color: white;
+    .type-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      max-width: 600px;
+    }
+    .type-pill {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+      transition: all 0.2s;
+    }
+    .type-pill:hover { border-color: var(--purple-light); color: var(--purple-light); }
+    .type-pill.analyst { border-color: rgba(155,89,182,0.3); }
+    .type-pill.diplomat { border-color: rgba(39,174,96,0.3); }
+    .type-pill.guardian { border-color: rgba(52,152,219,0.3); }
+    .type-pill.explorer { border-color: rgba(230,126,34,0.3); }
+    /* Features */
+    .features {
+      display: flex;
+      gap: 32px;
+      margin-top: 60px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeIn 0.6s ease 0.7s both;
+    }
+    .feature {
       text-align: center;
-      padding: 2rem 0;
-      margin-top: 3rem;
+      max-width: 160px;
     }
-    
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1rem;
-    }
-    
-    /* Responsive design */
-    @media (max-width: 768px) {
-      .header-content {
-        flex-direction: column;
-        text-align: center;
-      }
-      
-      .header h1 {
-        font-size: 1.5rem;
-      }
-      
-      .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      
-      .nav-links li {
-        margin: 0.5rem;
-      }
-      
-      .dashboard-title {
-        font-size: 1.5rem;
-      }
+    .feature-icon { font-size: 28px; margin-bottom: 8px; }
+    .feature-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .feature-desc { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-content">
-      <div>
-        <h1>AI市场分析报告</h1>
-        <div class="header-subtitle">基于实时数据的智能市场洞察</div>
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
+  <div class="bg-blob bg-blob-3"></div>
+
+  <div class="content">
+    <div class="badge">✨ 30题趣味版 · 抽象画像</div>
+    <h1 class="title">
+      <span class="title-gradient">你的性格</span><br>藏着什么秘密？
+    </h1>
+    <p class="subtitle">
+      通过30道生活场景题，发现你内心最真实的样子<br>
+      找到属于你的抽象几何画像
+    </p>
+    <a href="quiz.html" class="cta-btn">
+      开始测试 →
+    </a>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">30题精选</div>
+        <div class="feature-desc">从真实生活场景出发，拒绝无聊的选择题</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎨</div>
+        <div class="feature-title">抽象画像</div>
+        <div class="feature-desc">几何风格视觉呈现，看见你性格的另一面</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">即时出结果</div>
+        <div class="feature-desc">30题做完立即获得性格画像与详细解读</div>
       </div>
     </div>
-  </header>
 
-  <nav class="nav">
-    <div class="nav-content">
-      <ul class="nav-links">
-        <li><a href="/">首页</a></li>
-        <li><a href="#market-analysis">市场分析</a></li>
-        <li><a href="#investment-insights">投资洞察</a></li>
-        <li><a href="#about">关于我们</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <div class="container">
-    <div class="dashboard">
-      <h1 class="dashboard-title">最新市场分析报告</h1>
-      <p class="dashboard-description">基于AI模型分析的实时市场动态、热点追踪和投资建议。每日报告为您提供专业的市场洞察和投资策略。</p>
-      
-      <div class="news-grid" id="responses-container">
-        <!-- News articles will be loaded dynamically -->
+    <div class="type-showcase">
+      <h3>支持全部16种性格类型</h3>
+      <div class="type-grid">
+        <span class="type-pill analyst">INTJ</span><span class="type-pill analyst">INTP</span>
+        <span class="type-pill analyst">ENTJ</span><span class="type-pill analyst">ENTP</span>
+        <span class="type-pill diplomat">INFJ</span><span class="type-pill diplomat">INFP</span>
+        <span class="type-pill diplomat">ENFJ</span><span class="type-pill diplomat">ENFP</span>
+        <span class="type-pill guardian">ISTJ</span><span class="type-pill guardian">ISFJ</span>
+        <span class="type-pill guardian">ESTJ</span><span class="type-pill guardian">ESFJ</span>
+        <span class="type-pill explorer">ISTP</span><span class="type-pill explorer">ISFP</span>
+        <span class="type-pill explorer">ESTP</span><span class="type-pill explorer">ESFP</span>
       </div>
     </div>
   </div>
-
-  <footer>
-    <div class="footer-content">
-      <p>&copy; 2026 AI市场分析报告平台. 提供专业的AI驱动市场分析.</p>
-      <p>基于先进人工智能技术，为投资者提供及时、准确的市场分析与投资建议。</p>
-    </div>
-  </footer>
-
-  <script>
-    // Fetch and display the list of generated pages
-    document.addEventListener('DOMContentLoaded', function() {
-      const postsContainer = document.getElementById('responses-container');
-      
-      fetch('_posts/posts-manifest.json')
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error('Manifest file not found');
-          }
-        })
-        .then(posts => {
-          if (posts && posts.length > 0) {
-            postsContainer.innerHTML = posts.map(post => {
-              // Create a brief excerpt from the title or model name
-              let excerpt = post.model + ' - ' + post.config;
-              if (excerpt.length > 80) {
-                excerpt = excerpt.substring(0, 80) + '...';
-              }
-              
-              return `
-                <div class="news-card">
-                  <div class="card-header">
-                    <h3 class="card-title">${post.title}</h3>
-                  </div>
-                  <div class="card-body">
-                    <div class="card-meta">
-                      <span>📅 ${post.date}</span>
-                      <span>🤖 ${post.model}</span>
-                    </div>
-                    <div class="card-excerpt">
-                      ${excerpt}
-                    </div>
-                    <a href="_posts/${post.filename}" class="card-link">阅读全文</a>
-                  </div>
-                </div>
-              `;
-            }).join('');
-          } else {
-            postsContainer.innerHTML = '<div class="no-posts">暂无市场分析报告</div>';
-          }
-        })
-        .catch(error => {
-          console.error('Error loading posts:', error);
-          postsContainer.innerHTML = '<div class="no-posts">加载市场分析报告时出错</div>';
-        });
-    });
-  </script>
 </body>
 </html>

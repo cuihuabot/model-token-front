@@ -7,313 +7,132 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --purple: #9B59B6;
-      --purple-dark: #6C3483;
-      --purple-light: #D2B4DE;
-      --green: #27AE60;
-      --blue: #3498DB;
-      --blue-dark: #2471A3;
-      --gold: #F39C12;
-      --orange: #E67E22;
-      --bg: #F5F0FA;
-      --card: #FFFFFF;
-      --text: #2C3E50;
-      --text-light: #7F8C8D;
-      --border: #E8E8E8;
-      --shadow: 0 8px 32px rgba(155,89,182,0.12);
-      --radius: 20px;
+      --purple: #9B59B6; --purple-dark: #6C3483; --purple-light: #D2B4DE;
+      --green: #27AE60; --blue: #3498DB; --blue-dark: #2471A3;
+      --gold: #F39C12; --orange: #E67E22;
+      --bg: #F5F0FA; --card: #FFFFFF; --text: #2C3E50;
+      --text-light: #7F8C8D; --border: #E8E8E8;
+      --shadow: 0 8px 32px rgba(155,89,182,0.12); --radius: 20px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Noto Sans SC', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 32px 20px 60px;
-    }
-    /* Header */
-    .result-header {
-      text-align: center;
-      padding: 32px 0 24px;
-      animation: fadeUp 0.6s ease;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .result-label {
-      font-size: 13px;
-      color: var(--text-light);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
+    body { font-family: 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    .container { max-width: 600px; margin: 0 auto; padding: 32px 20px 60px; }
+    .result-header { text-align: center; padding: 32px 0 24px; animation: fadeUp 0.6s ease; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .result-label { font-size: 13px; color: var(--text-light); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
     .result-type {
-      font-size: 64px;
-      font-weight: 700;
-      line-height: 1;
-      margin-bottom: 8px;
+      font-size: 64px; font-weight: 700; line-height: 1; margin-bottom: 8px;
       background: linear-gradient(135deg, var(--purple), var(--blue-dark));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .result-role {
-      font-size: 20px;
-      color: var(--text-light);
-      margin-bottom: 4px;
-    }
-    .result-role-cn {
-      font-size: 26px;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 16px;
-    }
-    /* Portrait */
-    .portrait-wrap {
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 24px;
-      margin-bottom: 20px;
-      text-align: center;
-      animation: fadeUp 0.6s ease 0.1s both;
-    }
-    .portrait-img {
-      width: 200px;
-      height: 200px;
-      border-radius: 16px;
-      object-fit: cover;
-      border: 3px solid var(--purple-light);
-    }
-    /* Dimension bars */
-    .dim-bars {
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 24px;
-      margin-bottom: 20px;
-      animation: fadeUp 0.6s ease 0.2s both;
-    }
-    .dim-bars-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-light);
-      margin-bottom: 16px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .dim-row {
-      margin-bottom: 14px;
-    }
+    .result-role { font-size: 20px; color: var(--text-light); margin-bottom: 4px; }
+    .result-role-cn { font-size: 26px; font-weight: 600; color: var(--text); margin-bottom: 16px; }
+    .portrait-wrap { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px; text-align: center; animation: fadeUp 0.6s ease 0.1s both; }
+    .portrait-img { width: 200px; height: 200px; border-radius: 16px; object-fit: cover; border: 3px solid var(--purple-light); }
+    .dim-bars { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px; animation: fadeUp 0.6s ease 0.2s both; }
+    .dim-bars-title { font-size: 15px; font-weight: 600; color: var(--text-light); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+    .dim-row { margin-bottom: 14px; }
     .dim-row:last-child { margin-bottom: 0; }
-    .dim-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text-light);
-      margin-bottom: 6px;
-    }
-    .dim-labels span:last-child { color: var(--text-light); }
-    .dim-track {
-      height: 8px;
-      background: #E8E8E8;
-      border-radius: 4px;
-      overflow: visible;
-      position: relative;
-    }
-    .dim-fill {
-      height: 100%;
-      border-radius: 4px;
-      transition: width 0.8s ease;
-    }
-    .dim-marker {
-      position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: #fff;
-      border: 2px solid var(--purple);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    /* Abstract description */
-    .abstract-card {
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 28px 24px;
-      margin-bottom: 20px;
-      animation: fadeUp 0.6s ease 0.3s both;
-    }
-    .abstract-card h3 {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--purple);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .abstract-text {
-      font-size: 15px;
-      line-height: 1.9;
-      color: var(--text);
-    }
-    /* Keywords */
-    .keywords-wrap {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
-    .keyword-tag {
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 500;
-      background: #F5EEF8;
-      color: var(--purple);
-    }
-    /* Retake */
-    .retake-wrap {
-      text-align: center;
-      padding: 20px;
-      animation: fadeUp 0.6s ease 0.4s both;
-    }
-    .btn-retake {
-      display: inline-block;
-      padding: 12px 28px;
-      border-radius: 12px;
-      background: #fff;
-      color: var(--purple);
-      border: 2px solid var(--purple);
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-      font-family: 'Noto Sans SC', sans-serif;
-    }
-    .btn-retake:hover {
-      background: var(--purple);
-      color: #fff;
-    }
-    /* Loading */
-    .loading {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--text-light);
-      font-size: 16px;
-    }
-    .loading::after {
-      content: '...';
-      animation: dots 1.5s infinite;
-    }
-    @keyframes dots {
-      0%, 20% { content: '.'; }
-      40% { content: '..'; }
-      60%, 100% { content: '...'; }
-    }
+    .dim-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-light); margin-bottom: 6px; }
+    .dim-track { height: 8px; background: #E8E8E8; border-radius: 4px; overflow: visible; position: relative; }
+    .dim-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+    .dim-marker { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 2px solid var(--purple); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .abstract-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 24px; margin-bottom: 20px; animation: fadeUp 0.6s ease 0.3s both; }
+    .abstract-card h3 { font-size: 16px; font-weight: 600; color: var(--purple); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .abstract-text { font-size: 15px; line-height: 1.9; color: var(--text); }
+    .keywords-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .keyword-tag { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; background: #F5EEF8; color: var(--purple); }
+    .retake-wrap { text-align: center; padding: 20px; animation: fadeUp 0.6s ease 0.4s both; }
+    .btn-retake { display: inline-block; padding: 12px 28px; border-radius: 12px; background: #fff; color: var(--purple); border: 2px solid var(--purple); font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'Noto Sans SC', sans-serif; }
+    .btn-retake:hover { background: var(--purple); color: #fff; }
+    .loading { text-align: center; padding: 60px 20px; color: var(--text-light); font-size: 16px; }
   </style>
 </head>
 <body>
-<div class="container" id="app">
-  <div class="loading">正在计算你的性格类型</div>
-</div>
+<div class="container" id="app"><div class="loading">正在计算你的性格类型</div></div>
 
 <script>
-// MBTI color scheme
-const DIM_COLORS = {
-  EI: { left: '#9B59B6', right: '#27AE60', leftLabel: '内向 I', rightLabel: '外向 E' },
-  SN: { left: '#27AE60', right: '#3498DB', leftLabel: '实感 S', rightLabel: '直觉 N' },
-  TF: { left: '#F39C12', right: '#3498DB', leftLabel: '感性 F', rightLabel: '理性 T' },
-  JP: { left: '#E67E22', right: '#9B59B6', leftLabel: '知觉 P', rightLabel: '判断 J' },
+const BASE = '/model-token-front/';
+
+// ── Profiles data (inlined, no fetch needed) ──────────────────────────────
+const PROFILES = {
+  "INTJ":  { role:"Architect",      role_cn:"建筑师",    group:"analyst",   group_cn:"理性者", color:"#9B59B6", icon:"🏗️", portrait_m:"intj-architect-m_001.jpg",    portrait_f:"intj-architect-f_001.jpg",    abstract:"脑子里有一座图书馆，说话像发微信语音——简洁、有重点、没废话。社交场合的INTJ像一盏探照灯：平时熄着，一旦发现有趣的话题，瞬间亮起来。讨厌无意义的闲聊，但为了长远目标愿意暂时配合。计划被打乱时内心会响起警报声。", keywords:["战略","独立","追求完美","冷峻","深邃"] },
+  "INTP":  { role:"Logician",      role_cn:"逻辑学家",  group:"analyst",   group_cn:"理性者", color:"#3498DB", icon:"🔍", portrait_m:"intp-logician-m_001.jpg",    portrait_f:"intp-logician-f_001.jpg",    abstract:"脑子里住了个永远运转的实验室，对任何事都要先拆解再重组。发消息的风格是「这个问题的核心是……」，买手机会先拉一张参数对比表然后算出最优解。社交能量像手机电量，用完就真没了，需要独处充电。", keywords:["逻辑","分析","独立","理性","创新"] },
+  "ENTJ":  { role:"Commander",     role_cn:"指挥官",    group:"analyst",   group_cn:"理性者", color:"#8E44AD", icon:"🎯", portrait_m:"entj-commander-m_001.jpg",    portrait_f:"entj-commander-f_001.jpg",    abstract:"自带指挥官气场，说话直接像发红头文件，永远在思考「最优解是什么」。开会时INTJ还在画蓝图，ENTJ已经开始排工期了。讨厌磨叽和借口，喜欢带着队伍往前冲。偶尔会因为太专注于目标而忽略身边人的情绪。", keywords:["决断","高效","领导力","战略","直接"] },
+  "ENTP":  { role:"Debater",       role_cn:"辩论家",    group:"analyst",   group_cn:"理性者", color:"#E67E22", icon:"💡", portrait_m:"entp-debater-m_001.jpg",     portrait_f:"entp-debater-f_001.jpg",     abstract:"行走的辩论队，脑子里永远有三个反对意见和四个新点子。买手机不是买手机，是在评估「哪个系统生态更值得押注」。跟ENTP聊天永远不无聊——他们能把任何话题聊成哲学思辨，自己说完还意犹未尽。计划是用来打破的，灵感才是真谛。", keywords:["机智","创新","好奇","辩论","多变"] },
+  "INFJ":  { role:"Advocate",       role_cn:"倡导者",    group:"diplomat",  group_cn:"理想主义者", color:"#27AE60", icon:"🧭", portrait_m:"infj-advocate-m_001.jpg",     portrait_f:"infj-advocate-f_001.jpg",     abstract:"安静地坐着，但脑子里已经把你的人生走向分析完了。INFJ有一种天赋：记住别人说过的小细节，然后在某次聊天里突然提起，让对方觉得「ta怎么还记得」。喜欢帮助别人，但需要大量独处时间来消化情绪。内在有一张清晰的理想主义蓝图。", keywords:["理想","洞察","忠诚","共情","安静"] },
+  "INFP":  { role:"Mediator",       role_cn:"调解者",    group:"diplomat",  group_cn:"理想主义者", color:"#1E8449", icon:"🌿", portrait_m:"infp-mediator-m_001.jpg",     portrait_f:"infp-mediator-f_001.jpg",     abstract:"内心是一座私人美术馆，收藏着各种感受、想象和未说出口的话。INFP说话少但写字多，发朋友圈像在写诗，然后删掉。讨厌冲突，宁可自己退一步也不愿意伤害关系。买手机的标准是「这台手机能不能让我更专注地创作」。", keywords:["浪漫","理想","创意","敏感","真诚"] },
+  "ENFJ":  { role:"Protagonist",    role_cn:"主角",      group:"diplomat",  group_cn:"理想主义者", color:"#1ABC9C", icon:"✨", portrait_m:"enfj-protagonist-m_001.jpg",   portrait_f:"enfj-protagonist-f_001.jpg",   abstract:"天生知道怎么让身边的人觉得自己很特别。ENFJ是那种会在你生日那天精心准备一段话的人，让你觉得被真正看见了。讨厌当面冲突，但愿意私下花两小时去化解矛盾。有一种迷人的感染力，能把周围的人带动起来一起行动。", keywords:["魅力","理想","感染力","责任","热情"] },
+  "ENFP":  { role:"Campaigner",     role_cn:"竞选者",    group:"diplomat",  group_cn:"理想主义者", color:"#2ECC71", icon:"🎪", portrait_m:"enfp-campaigner-m_001.jpg",    portrait_f:"enfp-campaigner-f_001.jpg",    abstract:"世界是一张巨大的灵感清单，而ENFP永远在下一页。发消息能发成长篇小说，朋友不多但每个都能深夜三点打电话。讨厌被框架束缚，喜欢同时开三个项目然后全部半途而废。买手机的标准是「颜色好不好看」。", keywords:["热情","创意","自由","好奇","多才"] },
+  "ISTJ":  { role:"Logistician",    role_cn:"物流师",    group:"guardian",  group_cn:"守卫者", color:"#2471A3", icon:"📋", portrait_m:"istj-logistician-m_001.jpg",   portrait_f:"istj-logistician-f_001.jpg",   abstract:"说话像写公文——开门见山、逻辑清晰、不来虚的。答应的事一定会做到，不是因为承诺，是因为答应了就要做到。ISTJ的桌面通常很整洁，手机里的相册按时间排列。讨厌空谈，喜欢直接讨论「怎么做」。约会从来不迟到。", keywords:["可靠","务实","责任","有序","稳定"] },
+  "ISFJ":  { role:"Defender",       role_cn:"守卫者",    group:"guardian",  group_cn:"守卫者", color:"#2980B9", icon:"🛡️", portrait_m:"isfj-defender-m_001.jpg",     portrait_f:"isfj-defender-f_001.jpg",     abstract:"记得你上次说嗓子不舒服，下次见面就带了润喉糖。ISFJ的帮助方式总是润物细无声的那种，让你事后才反应过来「原来ta一直在默默记着」。不喜欢成为焦点，但会为了保护重要的人站出来。做的比说的多很多。", keywords:["守护","细心","忠诚","务实","谦逊"] },
+  "ESTJ":  { role:"Executive",      role_cn:"执行者",    group:"guardian",  group_cn:"守卫者", color:"#D4AC0D", icon:"⚙️", portrait_m:"estj-executive-m_001.jpg",    portrait_f:"estj-executive-f_001.jpg",    abstract:"不是发号施令，是本来就应该听我的。ESTJ擅长把混乱的事情变成井井有条的流程，擅长记住规则并在合适的时机引用。讨厌打破规则的人，也讨厌说了做不到的承诺。过年回家的ESTJ：冰箱已经分类好，春联按标准对仗贴好。", keywords:["高效","务实","诚信","传统","果断"] },
+  "ESFJ":  { role:"Consul",         role_cn:"领事",      group:"guardian",  group_cn:"守卫者", color:"#5DADE2", icon:"🤝", portrait_m:"esfj-consul-m_001.jpg",      portrait_f:"esfj-consul-f_001.jpg",      abstract:"聚会的灵魂人物，永远知道谁和谁认识、谁喜欢吃什么、谁的生日快到了。ESFJ帮忙是实打实的——不是发消息说「有什么需要帮忙的」，而是直接带着热汤出现在你家门口。讨厌冲突升级，会主动做和事佬。", keywords:["热情","责任","社交","忠诚","关怀"] },
+  "ISTP":  { role:"Virtuoso",       role_cn:"技艺大师",  group:"explorer", group_cn:"探险者", color:"#BA4A00", icon:"🔧", portrait_m:"istp-virtuoso-m_001.jpg",    portrait_f:"istp-virtuoso-f_001.jpg",    abstract:"手机屏碎了？自己换。路由器坏了？拆开看看。ISTP解决完问题会感到深深的满足感，工具箱是他们的快乐老家。话少，但动手能力极强。不喜欢提前做计划，更愿意「到时候看情况」。情绪不外露，但会在小事上默默关心人。", keywords:["冷静","动手","灵活","实用","空间感"] },
+  "ISFP":  { role:"Adventurer",     role_cn:"冒险家",    group:"explorer", group_cn:"探险者", color:"#CA6F1E", icon:"🎨", portrait_m:"isfp-adventurer-m_001.jpg",   portrait_f:"isfp-adventurer-f_001.jpg",   abstract:"手机相册里是咖啡拉花、日落、和街角涂鸦墙。ISFP是那种突然请假买张机票去一个没人认识的小镇住一周的人。美感很强，买东西标准是「好看」和「我喜欢」。话不多说，但做的选择往往很有个人风格。", keywords:["自由","美感","敏感","好奇","行动"] },
+  "ESTP":  { role:"Entrepreneur",   role_cn:"企业家",    group:"explorer", group_cn:"探险者", color:"#E74C3C", icon:"🚀", portrait_m:"estp-entrepreneur-m_001.jpg",  portrait_f:"estp-entrepreneur-f_001.jpg",  abstract:"活在当下这个词就是为ESTP发明的。约吃饭？十分钟后楼下见。ESTP是那种会在KTV里突然站起来切到下一首的人，社交场合永远不冷场。讨厌纸上谈兵，喜欢直接干。风险评估靠直觉，但也因此往往在别人还在想的时候已经行动了。", keywords:["行动","灵活","现实","社交","大胆"] },
+  "ESFP":  { role:"Entertainer",    role_cn:"表演者",    group:"explorer", group_cn:"探险者", color:"#E67E22", icon:"🎤", portrait_m:"esfp-entertainer-m_001.jpg",   portrait_f:"esfp-entertainer-f_001.jpg",   abstract:"朋友圈点赞王，聚会里的气氛发电机，和ESFP在一起永远不会无聊。发消息喜欢发语音，因为打字太慢说不完。买了新东西一定会拍照分享，穿搭是自我表达的一种方式。讨厌被限制，喜欢即兴发挥，享受舞台聚光灯的感觉。", keywords:["热情","表现","社交","自发","娱乐"] },
 };
 
-async function init() {
+const DIM_COLORS = {
+  EI: { left:'#9B59B6', right:'#27AE60', leftLabel:'内向 I', rightLabel:'外向 E' },
+  SN: { left:'#27AE60', right:'#3498DB', leftLabel:'实感 S', rightLabel:'直觉 N' },
+  TF: { left:'#F39C12', right:'#3498DB', leftLabel:'感性 F', rightLabel:'理性 T' },
+  JP: { left:'#E67E22', right:'#9B59B6', leftLabel:'知觉 P', rightLabel:'判断 J' },
+};
+
+function init() {
   const data = sessionStorage.getItem('mbti_result');
-  if (!data) {
-    window.location.href = 'quiz.html';
-    return;
-  }
+  if (!data) { window.location.href = 'quiz.html'; return; }
+
   const result = JSON.parse(data);
   const gender = sessionStorage.getItem('mbti_gender') || 'm';
+  const profile = PROFILES[result.type] || {};
 
-  // Load profiles
-  let profiles = {};
-  try {
-    const res = await fetch('data/profiles.json');
-    profiles = await res.json();
-  } catch (e) {
-    console.error('Failed to load profiles.json', e);
-  }
+  const portraitFile = gender === 'f' ? (profile.portrait_f || '') : (profile.portrait_m || '');
+  const portraitUrl = BASE + 'public/portraits/' + portraitFile;
 
-  const profile = profiles[result.type] || {};
-  const portraitFile = gender === 'f' ? profile.portrait_f : profile.portrait_m;
-  const portraitUrl = `portraits/${portraitFile}`;
-
-  // Build dimension bars
   const dims = [
-    { key: 'EI', score: result.ei, max: 21 },
-    { key: 'SN', score: result.sn, max: 21 },
-    { key: 'TF', score: result.tf, max: 24 },
-    { key: 'JP', score: result.jp, max: 24 },
+    { key:'EI', score:result.ei, max:21 },
+    { key:'SN', score:result.sn, max:21 },
+    { key:'TF', score:result.tf, max:24 },
+    { key:'JP', score:result.jp, max:24 },
   ];
 
   const dimBarsHTML = dims.map(d => {
     const cfg = DIM_COLORS[d.key];
-    const pct = ((d.score + d.max) / (2 * d.max)) * 100;
-    const clampedPct = Math.min(100, Math.max(0, pct));
+    const pct = Math.min(100, Math.max(0, ((d.score + d.max) / (2 * d.max)) * 100));
     const color = d.score >= 0 ? cfg.right : cfg.left;
-    return `
-      <div class="dim-row">
-        <div class="dim-labels">
-          <span>${cfg.leftLabel}</span>
-          <span>${cfg.rightLabel}</span>
-        </div>
-        <div class="dim-track">
-          <div class="dim-fill" style="width:${clampedPct}%;background:${color}"></div>
-          <div class="dim-marker" style="left:${clampedPct}%"></div>
-        </div>
+    return `<div class="dim-row">
+      <div class="dim-labels"><span>${cfg.leftLabel}</span><span>${cfg.rightLabel}</span></div>
+      <div class="dim-track">
+        <div class="dim-fill" style="width:${pct}%;background:${color}"></div>
+        <div class="dim-marker" style="left:${pct}%"></div>
       </div>
-    `;
+    </div>`;
   }).join('');
 
-  const keywordsHTML = (profile.keywords || []).map(k =>
-    `<span class="keyword-tag">${k}</span>`
-  ).join('');
+  const keywordsHTML = (profile.keywords || []).map(k => `<span class="keyword-tag">${k}</span>`).join('');
 
-  const app = document.getElementById('app');
-  app.innerHTML = `
+  document.getElementById('app').innerHTML = `
     <div class="result-header">
       <div class="result-label">你的MBTI性格类型</div>
       <div class="result-type">${result.type}</div>
       <div class="result-role">${profile.role || ''} — ${profile.group_cn || ''}</div>
       <div class="result-role-cn">${profile.icon || ''} ${profile.role_cn || profile.role || ''}</div>
     </div>
-
     <div class="portrait-wrap">
-      <img class="portrait-img" src="${portraitUrl}" alt="${result.type} ${profile.role_cn}"
-           onerror="this.style.display='none'">
+      <img class="portrait-img" src="${portraitUrl}" alt="${result.type} ${profile.role_cn}" onerror="this.parentElement.innerHTML='<p style=\'color:#999;font-size:14px;padding:40px 0\'>画像加载中…</p>'">
     </div>
-
     <div class="dim-bars">
       <div class="dim-bars-title">⚖️ 四维分析</div>
       ${dimBarsHTML}
     </div>
-
     <div class="abstract-card">
       <h3>🔮 抽象画像</h3>
       <p class="abstract-text">${profile.abstract || '这幅画像等待与你相遇。'}</p>
       <div class="keywords-wrap">${keywordsHTML}</div>
     </div>
-
     <div class="retake-wrap">
       <a href="quiz.html" class="btn-retake">重新测试 →</a>
     </div>
